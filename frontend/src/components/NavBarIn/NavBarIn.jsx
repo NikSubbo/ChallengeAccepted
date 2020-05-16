@@ -1,50 +1,77 @@
 import React from 'react';
-import { fade, makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  MenuItem,
+  Menu,
+  Avatar,
+  Button,
+  Drawer,
+  List,
+  ListItemText,
+  Divider,
+  ListItem,
+  ListItemAvatar
+} from '@material-ui/core';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import SearchIcon from '@material-ui/icons/Search';
-import Avatar from '@material-ui/core/Avatar';
-import avatarImage from '../../images/van-damme.jpg';
-import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import logoImage from '../../images/logo.png';
+import avatarImage from '../../assets/van-damme.jpg';
+import logoImage from '../../assets/logo.png';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
+  appBar: {
+    color: '#6D676E',
+    backgroundColor: '#FBFFFE',
+  },
   menuButton: {
-    marginRight: theme.spacing(2),
   },
   logoDiv: {
-    // flexGrow: 1,
     textAligh: 'center',
     minWidth: '120px',
     minHeight: '50px',
     position: 'relative',
-    marginRight: theme.spacing(2),
   },
   logo: {
-    maxWidth: '140px',
-    maxHeight: '60px',
+    maxWidth: '200px',
+    maxHeight: '100px',
     position: 'absolute',
     top: '65%',
     left: '50%',
     transform: 'translate(-50%, -50%)'
   },
+  divUpload: {
+    flexGrow: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    marginRight: theme.spacing(2),
+  },
+  inputUpload: {
+    display: 'none',
+  },
+  btnUpload: {
+    backgroundColor: '#FAA916',
+    color: '#FBFFFE',
+    '&:hover': {
+      backgroundColor: '#96031A',
+      color: '#FAA916',
+    }
+  },
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
     '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
+      backgroundColor: '#f5f5f5',
     },
     marginRight: theme.spacing(2),
+    border: '1px solid #6D676E',
     marginLeft: 0,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
@@ -66,7 +93,6 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -74,17 +100,37 @@ const useStyles = makeStyles((theme) => ({
       width: '20ch',
     },
   },
-  inputUpload: {
-    display: 'none',
+  listItem: {
+    color: '#6D676E',
+    '&:hover': {
+      backgroundColor: '#96031A',
+      color: '#FAA916',
+    }
   },
-  btnUpload: {
-    marginRight: theme.spacing(2),
+  listTitle: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: '20px',
+    paddingBottom: '20px',
+    fontWeight: 'bold',
+    color: '#FAA916',
+    backgroundColor: '#96031A',
   },
 }));
 
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
   const isMenuOpen = Boolean(anchorEl);
 
   const handleProfileMenuOpen = (event) => {
@@ -95,12 +141,57 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(null);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const list = (
+    <div onClick={handleDrawerClose}>
+      <Typography className={classes.listTitle} variant="h6">Following</Typography>
+      <Divider />
+      <List>
+        <ListItem button className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar src={avatarImage} />
+          </ListItemAvatar>
+          <ListItemText primary="Ranko" />
+        </ListItem >
+        <ListItem button className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar src={avatarImage} />
+          </ListItemAvatar>
+          <ListItemText primary="Zaremba" />
+        </ListItem>
+        <ListItem button className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar src={avatarImage} />
+          </ListItemAvatar>
+          <ListItemText primary="KoStYa" />
+        </ListItem>
+        <ListItem button className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar src={avatarImage} />
+          </ListItemAvatar>
+          <ListItemText primary="McKo" />
+        </ListItem>
+        <ListItem button className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar src={avatarImage} />
+          </ListItemAvatar>
+          <ListItemText primary="KatrinЪ" />
+        </ListItem>
+        <ListItem button className={classes.listItem}>
+          <ListItemAvatar>
+            <Avatar src="" />
+          </ListItemAvatar>
+          <ListItemText primary="Anon" />
+        </ListItem>
+      </List>
+    </div>
+  );
+
+  // const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      id={menuId}
+      // id={menuId}
       keepMounted
       transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
@@ -112,40 +203,40 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    <div className={classes.grow}>
-      <AppBar position="static">
+    <div className={classes.grow} >
+      <AppBar position="static" classes={{ root: classes.appBar }}>
         <Toolbar>
+
           <IconButton
             edge="start"
             className={classes.menuButton}
             color="inherit"
             aria-label="open drawer"
+            onClick={handleDrawerOpen}
           >
-            <MenuIcon />
+            <SubscriptionsIcon />
           </IconButton>
 
-          <div className={classes.logoDiv} noWrap>
+          <div className={classes.logoDiv}>
             <img className={classes.logo} src={logoImage} alt="logo" />
           </div>
 
-          <div>
+          <div className={classes.divUpload}>
             <input
               accept="image/*"
               className={classes.inputUpload}
               id="contained-button-file"
-              multiple
               type="file"
             />
             <label htmlFor="contained-button-file">
               <Button
                 variant="contained"
-                color="primary"
                 component="span"
                 startIcon={<CloudUploadIcon />}
                 className={classes.btnUpload}
               >
-                Upload Challenge
-        </Button>
+                <Typography>Upload Challenge</Typography>
+              </Button>
             </label>
           </div>
 
@@ -166,7 +257,7 @@ export default function PrimarySearchAppBar() {
           <IconButton
             edge="end"
             aria-label="account of current user"
-            aria-controls={menuId}
+            // aria-controls={menuId}
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
             color="inherit"
@@ -176,6 +267,13 @@ export default function PrimarySearchAppBar() {
         </Toolbar>
       </AppBar>
       {renderMenu}
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={handleDrawerClose}
+      >
+        {list}
+      </Drawer>
     </div>
   );
 }

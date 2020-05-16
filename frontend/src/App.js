@@ -13,7 +13,6 @@ export class App extends Component {
     return (
       <div>
         <MainPage />
-        <h1>Hello React</h1>
       </div>
     )
   }
