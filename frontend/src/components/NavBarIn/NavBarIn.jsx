@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -135,6 +136,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#FAA916',
     backgroundColor: '#96031A',
   },
+  profileLink: {
+    textDecoration: 'none'
+  }
 }));
 
 export default function PrimarySearchAppBar() {
@@ -170,7 +174,7 @@ export default function PrimarySearchAppBar() {
       <DialogContent>
         <DialogContentText>
           To upload your Challenge, please enter its title, description and attach video file. Thank You!
-</DialogContentText>
+      </DialogContentText>
         <TextField
           autoFocus
           margin="dense"
@@ -199,10 +203,10 @@ export default function PrimarySearchAppBar() {
       <DialogActions>
         <Button onClick={handleUploaderClose} className={classes.btnCancel}>
           Cancel
-</Button>
+        </Button>
         <Button onClick={handleUploaderClose} className={classes.btnUpload}>
           Submit
-</Button>
+        </Button>
       </DialogActions>
     </Dialog>
   );
@@ -214,7 +218,7 @@ export default function PrimarySearchAppBar() {
       open={Boolean(anchorEl)}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>My Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}><Link className={classes.profileLink} to="/profile">My Profile</Link></MenuItem>
       <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
     </Menu>
   );
@@ -287,7 +291,9 @@ export default function PrimarySearchAppBar() {
           {renderDrawer}
 
           <div className={classes.logoDiv}>
-            <img className={classes.logo} src={logoImage} alt="logo" />
+            <Link to="/main" >
+              <img className={classes.logo} src={logoImage} alt="logo" />
+            </Link>
           </div>
 
           <div className={classes.divUpload}>

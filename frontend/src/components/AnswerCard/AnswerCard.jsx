@@ -34,7 +34,7 @@ export default function AnswerCard() {
       <Box className={classes.box}>
         <CardMedia
           className={classes.media}
-          image={require("../../assets/BottleCapChallenge1.gif")}
+          image={require("../../assets/BottleCapChallenge.gif")}
           title="Paella dish"
         />
       </Box>
@@ -42,7 +42,7 @@ export default function AnswerCard() {
       <Box className={classes.box}>
         <CardMedia
           className={classes.media}
-          image={require("../../assets/BottleCapChallenge2.gif")}
+          image={require("../../assets/BottleCapChallenge.gif")}
           title="Paella dish"
         />
       </Box>
@@ -50,7 +50,7 @@ export default function AnswerCard() {
       <Box className={classes.box}>
         <CardMedia
           className={classes.media}
-          image={require("../../assets/BottleCapChallenge3.gif")}
+          image={require("../../assets/BottleCapChallenge.gif")}
           title="Paella dish"
         /></Box>
       <Divider />

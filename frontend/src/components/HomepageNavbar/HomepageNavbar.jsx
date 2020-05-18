@@ -13,7 +13,7 @@ const HomepageNavbar = () => {
         <div className={styles.homepageNavLinks}>
           <ul className={styles.homepageUL}>
             <Link className={styles.link} to="/main"><li>Watch</li></Link>
-            <Link className={styles.link} to="/signup"><li>Login</li></Link>
+            <Link className={styles.link} to="/login"><li>Login</li></Link>
           </ul>
         </div>
       </nav>
