@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import NavBarIn from '../../components/NavBarIn/NavBarIn'
+import NavBarIn from '../../components/NavBarIn/NavBarIn';
 
 class MainPage extends Component {
 

@@ -10,7 +10,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import logo from '../../../assets/logo.png';
+import logo from '../../../assets/logoAuth.png';
 import googleIcon from '../../../assets/google.png';
 import facebookIcon from '../../../assets/facebook.png';
 
@@ -116,7 +116,9 @@ function SignupForm(props) {
           <Typography component="h1" variant="h4">
             Sign up for
           </Typography>
-          <img src={logo} alt="logo" />
+          <Box>
+            <img src={logo} alt="logo" />
+          </Box>
         </Box>
         <Box className={classes.subtitle}>
           <Typography component="p" variant="subtitle">
@@ -217,7 +219,7 @@ function SignupForm(props) {
         </Box>
           <Grid container justify="center">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
