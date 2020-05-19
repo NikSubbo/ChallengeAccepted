@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import logo from '../../../assets/logoAuth.png';
 import googleIcon from '../../../assets/google.png';
 import facebookIcon from '../../../assets/facebook.png';
+import { fetchLoginAC } from '../../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -61,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function LoginForm() {
+function LoginForm(props) {
   const classes = useStyles();
 
   const [userInput, setUserInput] = useState(
@@ -86,19 +88,10 @@ export default function LoginForm() {
   const submitHandler = async (e) => {
     e.preventDefault();
     const { email, password } = userInput;
-    const response = await fetch('http://localhost:5000/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    });
-    const result = await response.json();
+    const result = await props.fetchLogin(email, password);
+    console.log(props);
     if (result.user) {
-      console.log(result.user);
+      window.location.href = 'http://localhost:3000/main';
     } else {
       setUserInput({
         ...userInput,
@@ -117,7 +110,9 @@ export default function LoginForm() {
             Log in to
           </Typography>
           <Box>
-            <img src={logo} alt="logo"/>
+            <Link to="/" >
+              <img src={logo} alt="logo" />
+            </Link>
           </Box>
         </Box>
         <Box className={classes.subtitle}>
@@ -215,3 +210,9 @@ export default function LoginForm() {
     </Container>
   );
 }
+
+const mapDispatchToProps = dispatch => ({
+  fetchLogin: (email, password) => dispatch(fetchLoginAC(email, password)),
+});
+
+export default connect(null, mapDispatchToProps)(LoginForm)

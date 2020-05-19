@@ -41,14 +41,17 @@ router.post('/login', function(req, res, next) {
 // when login is successful, retrieve user info
 router.get('/login/success', (req, res, next) => {
   try {
-    console.log('user',req.user)
-    console.log('session', req.session)
     if (req.user) {
       res.send({
         success: true,
         message: "user has successfully authenticated",
         user: req.user,
         cookies: req.cookies,
+      });
+    } else {
+      res.send({
+        success: false,
+        message: "user is not authenticated",
       });
     }
   } catch (error) {
@@ -57,7 +60,7 @@ router.get('/login/success', (req, res, next) => {
 });
 
 // when login failed, send failed msg
-router.get("/login/failed", (req, res) => {
+router.get('/login/failed', (req, res) => {
   res.status(401).json({
     success: false,
     message: "user failed to authenticate."
@@ -65,7 +68,7 @@ router.get("/login/failed", (req, res) => {
 });
 
 // When logout, redirect to client
-router.get("/logout", (req, res) => {
+router.get('/logout', (req, res) => {
   req.logOut();
   req.session = null;
   res.redirect(CLIENT_HOME_PAGE_URL);

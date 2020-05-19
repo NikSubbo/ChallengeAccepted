@@ -1,15 +1,33 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
+import { connect } from 'react-redux';
+import { fetchUserAC } from '../../redux/action-creator';
 
-class MainPage extends Component {
+const MainPage = (props) => {
 
-  render() {
-    return (
-      <Fragment>
-        <NavBarIn />
-      </Fragment>
-    )
+  const fetchData = async () => {
+    await props.fetchUser();
   }
+
+  useEffect(() => {
+    if (!props.user) {
+     fetchData();
+    }
+  }, [props.user])
+
+  return (
+    <Fragment>
+      <NavBarIn />
+    </Fragment>
+  )
 }
 
-export default MainPage;
+const mapDispatchToProps = dispatch => ({
+  fetchUser: (user) => dispatch(fetchUserAC(user)),
+});
+
+const mapStateToProps = (state) => {
+  return state;
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);
