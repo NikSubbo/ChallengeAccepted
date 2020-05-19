@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, SEARCH_BY_HASHTAG } from './action';
+import { ADD_USER, SIGNUP, LOGIN, LOGOUT, SEARCH_BY_HASHTAG, RECEIVE_USER } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -58,3 +58,7 @@ export const fetchLoginAC = (email, password) => {
   }
 }
 
+export const receiveUserAC = (user) => ({
+  type: RECEIVE_USER,
+  user: user
+});
