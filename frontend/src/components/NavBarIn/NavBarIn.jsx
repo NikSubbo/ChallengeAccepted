@@ -168,6 +168,10 @@ export default function PrimarySearchAppBar() {
     setOpenUploader(false);
   };
 
+  const handleUploading = (files) => {
+    console.log('Files:', files)
+  };
+
   const renderUploader = (
     <Dialog open={openUploader} onClose={handleUploaderClose} aria-labelledby="form-dialog-title">
       <DialogTitle>Upload Challenge</DialogTitle>
@@ -198,7 +202,7 @@ export default function PrimarySearchAppBar() {
         />
       </DialogContent>
       <DropzoneArea
-        onChange={(files) => console.log('Files:', files)}
+        onChange={handleUploading}
       />
       <DialogActions>
         <Button onClick={handleUploaderClose} className={classes.btnCancel}>

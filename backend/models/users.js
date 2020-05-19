@@ -20,7 +20,6 @@ const userSchema = new mongoose.Schema({
     ref: 'Challenge'
   }]
 });
-
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

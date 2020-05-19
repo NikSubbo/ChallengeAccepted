@@ -18,7 +18,7 @@ export default function Comments() {
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Ali Connors" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Ali Connors" src="" />
         </ListItemAvatar>
         <form className={classes.root} noValidate autoComplete="off">
           <TextField id="standard-basic" label="Add Comment" />
@@ -27,7 +27,7 @@ export default function Comments() {
 
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Ali Connors" src="/static/images/avatar/1.jpg" />
+          <Avatar alt="Ali Connors" src="" />
         </ListItemAvatar>
         <ListItemText
           primary="Ali Connors"
@@ -49,7 +49,7 @@ export default function Comments() {
 
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Scott Summer" src="/static/images/avatar/2.jpg" />
+          <Avatar alt="Scott Summer" src="" />
         </ListItemAvatar>
         <ListItemText
           primary="Scott Summer"
@@ -71,7 +71,7 @@ export default function Comments() {
 
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+          <Avatar alt="Cindy Baker" src="" />
         </ListItemAvatar>
         <ListItemText
           primary="Cindy Baker"
