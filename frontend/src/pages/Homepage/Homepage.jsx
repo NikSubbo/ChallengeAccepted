@@ -1,16 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import HomepageNavbar from '../../components/HomepageNavbar/HomepageNavbar';
 import HomepageFooter from '../../components/HomepageFooter/HomepageFooter';
 import HomepageVideo from '../../components/HomepageVideo/HomepageVideo';
+import { connect } from 'react-redux';
+import { fetchUserAC } from '../../redux/action-creator';
+import { Redirect } from 'react-router-dom';
 
-const Homepage = () => {
-  return (
-    <Fragment>
-      <HomepageNavbar />
-      <HomepageVideo />
-      <HomepageFooter />
-    </Fragment>
-  )
+const Homepage = (props) => {
+
+  const fetchData = async () => {
+    await props.fetchUser();
+  }
+
+  useEffect(() => {
+    if (!props.user) {
+     fetchData();
+    }
+  }, [])
+
+  if (props.user) {
+    return <Redirect to="/main" />
+  } else {
+    return (
+      <Fragment>
+        <HomepageNavbar />
+        <HomepageVideo />
+        <HomepageFooter />
+      </Fragment>
+    )
+  }
 }
 
-export default Homepage;
+const mapDispatchToProps = dispatch => ({
+  fetchUser: (user) => dispatch(fetchUserAC(user)),
+});
+
+const mapStateToProps = (state) => {
+  const { user } = state;
+  return { user };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

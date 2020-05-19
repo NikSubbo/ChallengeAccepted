@@ -12,6 +12,7 @@ import Signup from './pages/Auth/Signup/Signup';
 import Login from './pages/Auth/Login/Login';
 import Profile from './pages/Profile/Profile';
 import Challenge from './pages/Challenge/Challenge';
+import requireAuth from './utilities/Authenticate/Authenticate';
 
 export class App extends Component {
   render() {
@@ -22,7 +23,7 @@ export class App extends Component {
           <Route exact path="/main" component={MainPage} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/profile" component={requireAuth(Profile)} />
           <Route exact path="/challenge" component={Challenge} />
         </Switch>
       </Fragment>

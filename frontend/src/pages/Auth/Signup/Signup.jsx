@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import SignupForm from '../../../components/AuthForms/SignupForm/SignupForm';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 
-class Signup extends Component {
-  render() {
+const Signup = (props) => {
+
+  if (props.user) {
+    return <Redirect to="/main" />
+  } else {
     return (
-      <div>
+      <Fragment>
         <SignupForm/>
-      </div>
+      </Fragment>
     )
   }
 }
 
-// const mapStateToProps = (state) => ({
-  
-// })
+const mapStateToProps = (state) => {
+  const { user } = state;
+  return { user };
+};
 
-// const mapDispatchToProps = {
-  
-// }
-
-export default Signup
-// export default connect(mapStateToProps, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps)(Signup)
