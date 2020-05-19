@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#FBFFFE',
     '&:hover': {
       backgroundColor: '#96031A',
-      color: '#FAA916', 
+      color: '#FAA916',
     },
     margin: theme.spacing(3, 0, 2),
   },
@@ -82,8 +82,8 @@ function LoginForm(props) {
     setUserInput({
       ...userInput,
       [name]: value,
-  })
-};
+    })
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -104,26 +104,26 @@ function LoginForm(props) {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-      <Box>
-        <Box className={classes.image}>
-          <Typography component="h1" variant="h4">
-            Log in to
+        <Box>
+          <Box className={classes.image}>
+            <Typography component="h1" variant="h4">
+              Log in to
           </Typography>
-          <Box>
-            <Link to="/" >
-              <img src={logo} alt="logo" />
-            </Link>
+            <Box>
+              <Link to="/" >
+                <img src={logo} alt="logo" />
+              </Link>
+            </Box>
+          </Box>
+          <Box className={classes.subtitle}>
+            <Typography component="p" variant="subtitle">
+              Manage your account, check challenges,
+              comment on them, and more
+          </Typography>
           </Box>
         </Box>
-        <Box className={classes.subtitle}>
-          <Typography component="p" variant="subtitle">
-            Manage your account, check challenges,
-            comment on them, and more
-          </Typography>
-        </Box>
-      </Box>
         <form className={classes.form} onSubmit={submitHandler}>
-          {userInput.message ? 
+          {userInput.message ?
             <Typography className={classes.error}>
               {userInput.message}
             </Typography>
@@ -170,19 +170,6 @@ function LoginForm(props) {
               OR
             </Typography>
             <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Button
-                href="http://localhost:5000/auth/google"
-                onClick={clickHandler}
-                fullWidth
-                variant="contained"
-                color="inherit"
-                className={classes.socialBtn}
-              >
-                <img src={googleIcon} alt="google"/>
-                Log In with Google
-              </Button>
-            </Grid>
               <Grid item xs={12}>
                 <Button
                   href="http://localhost:5000/auth/google"
@@ -192,12 +179,25 @@ function LoginForm(props) {
                   color="inherit"
                   className={classes.socialBtn}
                 >
-                  <img src={facebookIcon} alt="facebook"/>
+                  <img src={googleIcon} alt="google" />
+                Log In with Google
+              </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  href="http://localhost:5000/auth/google"
+                  onClick={clickHandler}
+                  fullWidth
+                  variant="contained"
+                  color="inherit"
+                  className={classes.socialBtn}
+                >
+                  <img src={facebookIcon} alt="facebook" />
                   Log In with Facebook
                 </Button>
               </Grid>
             </Grid>
-        </Box>
+          </Box>
           <Grid container justify="center">
             <Grid item>
               <Link to="/signup" variant="body2">
