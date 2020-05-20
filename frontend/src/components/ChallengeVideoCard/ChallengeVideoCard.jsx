@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ChallengeCard() {
+export default function ChallengeCard(props) {
   const classes = useStyles();
 
   return (
@@ -33,7 +33,7 @@ export default function ChallengeCard() {
         subheader="September 14, 2016"
       />
       <CardMedia className={classes.media}>
-        <Player />
+        <Player url={props.challenge.url} />
       </CardMedia>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
