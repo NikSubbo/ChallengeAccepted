@@ -11,9 +11,11 @@ cloudinary.config({
 
 const storage = cloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "video",
-  allowedFormats: ["mp4", "avi", "mkv"],
-  resource_type: 'video'
+  params: {
+    folder: 'video',
+    format: 'mp4',
+    resource_type: 'video'
+  }
 });
 const parser = multer({ storage: storage });
 

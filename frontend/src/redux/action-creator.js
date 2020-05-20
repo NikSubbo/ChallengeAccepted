@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, RECEIVE_USER } from './action';
+import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -78,10 +78,6 @@ export const fetchLogOutAC = () => {
   }
 }
 
-export const receiveUserAC = (user) => ({
-  type: RECEIVE_USER,
-  user: user
-});
 export const fetchChallengesAC = () => {
   return async (dispatch) => {
     const response = await fetch('/challenges', {

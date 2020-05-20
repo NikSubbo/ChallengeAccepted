@@ -1,4 +1,4 @@
-import { ADD_USER, ADD_CHALLENGE, RECEIVE_USER, LOGOUT } from './action';
+import { ADD_USER, ADD_CHALLENGE, LOGOUT } from './action';
 
 const initialState = {
   user: '',
@@ -12,9 +12,6 @@ export const reducer = (state = initialState, action) => {
 
     case ADD_CHALLENGE:
       return { ...state, challenges: [...state.challenges, action.newChallenge] }
-
-    case RECEIVE_USER:
-      return { ...state, ['user']: action.user };
 
     case LOGOUT:
       return { ...state, user: action.newUser };

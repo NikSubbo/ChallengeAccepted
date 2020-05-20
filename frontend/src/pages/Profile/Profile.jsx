@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Box, Typography, Grid, Avatar, Paper, Container, Button } from '@material-ui/core';
 import ProfileTabs from '../../components/ProfileTabs/ProfileTabs';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
-import { receiveUserAC } from '../../redux/action-creator'
+import { addUserAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -103,6 +103,6 @@ function Profile(props) {
 }
 
 const mapStateToProps = (state) => ({ state });
-const mapDispatchToProps = (dispatch) => ({ updateUser: (user) => dispatch(receiveUserAC(user)) });
+const mapDispatchToProps = (dispatch) => ({ updateUser: (user) => dispatch(addUserAC(user)) });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
