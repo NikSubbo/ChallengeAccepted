@@ -1,4 +1,4 @@
-const Challenge = require('../models/challenges');
+const { Challenge } = require('../models/challenges');
 const router = require('express').Router();
 
 
