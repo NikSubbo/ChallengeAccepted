@@ -5,6 +5,11 @@ export const addUserAC = (user) => ({
   newUser: { ...user },
 });
 
+export const logoutAC = () => ({
+  type: LOGOUT,
+  newUser: ''
+})
+
 export const addChallengeAC = (challenge) => ({
   type: ADD_CHALLENGE,
   newChallenge: challenge,
@@ -60,6 +65,18 @@ export const fetchLoginAC = (email, password) => {
     return result;
   };
 };
+
+export const fetchLogOutAC = () => {
+  return async(dispatch) => {
+    const response = await fetch('/auth/logout', {
+      method: 'GET',
+    });
+    if(response.redirected) {
+      dispatch(logoutAC)
+      window.location.href = response.url;
+    }
+  }
+}
 
 export const receiveUserAC = (user) => ({
   type: RECEIVE_USER,
