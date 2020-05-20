@@ -4,4 +4,4 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
 export const ADD_CHALLENGE = 'ADD_CHALLENGE';
-// export const SEARCH_BY_HASHTAG = 'SEARCH_BY_HASHTAG';
+export const RECEIVE_USER = 'RECEIVE_USER';

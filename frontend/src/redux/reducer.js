@@ -1,4 +1,4 @@
-import { ADD_USER, SEARCH_BY_HASHTAG, ADD_CHALLENGE } from './action';
+import { ADD_USER, ADD_CHALLENGE, RECEIVE_USER } from './action';
 
 const initialState = {
   user: '',
@@ -12,7 +12,10 @@ export const reducer = (state = initialState, action) => {
 
     case ADD_CHALLENGE:
       return { ...state, challenges: [...state.challenges, action.newChallenge] }
-  
+
+    case RECEIVE_USER:
+      return { ...state, ['user']: action.user };
+
     default:
       return { ...state }
   }

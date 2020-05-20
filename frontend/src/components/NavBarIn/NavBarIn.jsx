@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -148,6 +149,7 @@ const PrimarySearchAppBar = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openUploader, setOpenUploader] = React.useState(false);
+  const [video, setVideo] = React.useState(null);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -170,8 +172,8 @@ const PrimarySearchAppBar = (props) => {
     setOpenUploader(false);
   };
 
-  const handleUploading = (files) => {
-    console.log('Files:', files);
+  const handleUploading = (file) => {
+    setVideo(file);
   };
 
   const renderUploader = (
@@ -335,18 +337,15 @@ const PrimarySearchAppBar = (props) => {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-            <Avatar alt="Challenger" src={avatarImage} />
+           <Avatar alt="Challenger" src={props.state.user.avatar}/>
           </IconButton>
           {renderMenu}
         </Toolbar>
       </AppBar>
     </div>
   );
-};
+}
 
-// const mapDispatchToProps = (dispatch) => ({
-//   searchText: (text) => dispatch(searchTextAC(text)),
-// });
+const mapStateToProps = (state) => ({ state });
 
-// export default connect(null, mapDispatchToProps)(PrimarySearchAppBar);
-export default PrimarySearchAppBar;
+export default connect(mapStateToProps)(PrimarySearchAppBar);
