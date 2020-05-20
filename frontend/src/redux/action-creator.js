@@ -5,11 +5,6 @@ export const addUserAC = (user) => ({
   newUser: { ...user },
 });
 
-// export const searchTextAC = (text) => ({
-//   type: SEARCH_BY_HASHTAG,
-//   payload: text,
-// });
-
 export const addChallengeAC = (challenge) => ({
   type: ADD_CHALLENGE,
   newChallenge: challenge,

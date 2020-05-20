@@ -49,7 +49,9 @@ const MainPage = (props) => {
   };
 
   useEffect(() => {
-    fetchDataChallenges();
+    if (!props.challenges.length) {
+      fetchDataChallenges();
+    }
     if (!props.user) {
       fetchData();
     }

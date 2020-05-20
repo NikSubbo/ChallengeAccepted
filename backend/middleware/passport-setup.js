@@ -4,20 +4,18 @@ const LocalStrategy = require('passport-local').Strategy;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 require('dotenv').config();
-const User = require('../models/users');
+const { User } = require('../models/users');
 
 const saltRounds = 10;
 
 // serialize the user.id to save in the cookie session
 // so the browser will remember the user when login
 passport.serializeUser((user, done) => {
-  console.log('serialize', user);
   done(null, user._id);
 });
 
 // deserialize the cookieUserId to user in the database
 passport.deserializeUser((id, done) => {
-  console.log('deserialize', id);
   User.findById(id)
     .then(user => {
       done(null, user);
