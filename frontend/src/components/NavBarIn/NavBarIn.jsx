@@ -31,7 +31,8 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import avatarImage from '../../assets/van-damme.jpg';
 import logoImage from '../../assets/logo.png';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { searchTextAC, fetchLogOutAC } from '../../redux/action-creator';
+import { addUserAC, addChallengeAC, fetchLogOutAC } from '../../redux/action-creator';
+
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -149,6 +150,17 @@ const PrimarySearchAppBar = (props) => {
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const [openUploader, setOpenUploader] = React.useState(false);
   const [video, setVideo] = React.useState(null);
+  const [userInput, setUserInput] = React.useState(
+    { title: '', description: '', hashtags: '' },
+  );
+
+  const changeInputHandler = (e) => {
+    const { name, value } = e.target;
+    setUserInput({
+      ...userInput,
+      [name]: value,
+    })
+  };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -169,6 +181,7 @@ const PrimarySearchAppBar = (props) => {
   };
   const handleUploaderClose = () => {
     setOpenUploader(false);
+    setVideo(null);
   };
 
   const handleUploading = (file) => {
@@ -178,6 +191,33 @@ const PrimarySearchAppBar = (props) => {
   const handleLogout = () => {
     props.fetchLogout();
   }
+  
+  const handleUploaderSubmit = () => {
+    const userId = props.state.user._id;
+    const title = userInput.title;
+    const description = userInput.description;
+    const hashtags = userInput.hashtags;
+    const vid = video[0];
+    const data = new FormData();
+    data.append('file', vid);
+    const response = fetch(`/challenges/uploadVideo`, {
+      method: 'POST',
+      body: data
+    })
+      .then(res => res.json())
+      .then(videoUrl => fetch(`/challenges/createChallenge`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoUrl: videoUrl.videoUrl, userId, title, description, hashtags })
+      }))
+      .then(res => res.json())
+      .then(result => {
+        props.updateUser(result.updatedUser);
+        props.updateChallenges(result.challenge);
+        handleUploaderClose();
+      })
+      .catch(err => console.log(err))
+  };
 
   const renderUploader = (
     <Dialog
@@ -197,23 +237,37 @@ const PrimarySearchAppBar = (props) => {
           label="Challenge title"
           type="text"
           fullWidth
+          id="title"
+          name="title"
           required
+          onChange={changeInputHandler}
         />
         <TextField
           margin="dense"
           label="Challenge desciption"
           type="text"
+          id="description"
+          name="description"
           fullWidth
           required
+          onChange={changeInputHandler}
         />
-        <TextField margin="dense" label="Hashtags" type="text" fullWidth />
+        <TextField
+          margin="dense"
+          label="Hashtags"
+          type="text"
+          id="hashtags"
+          name="hashtags"
+          onChange={changeInputHandler}
+          fullWidth
+        />
       </DialogContent>
-      <DropzoneArea onChange={handleUploading} />
+      <DropzoneArea onChange={handleUploading} maxFileSize={15000000} />
       <DialogActions>
         <Button onClick={handleUploaderClose} className={classes.btnCancel}>
           Cancel
         </Button>
-        <Button onClick={handleUploaderClose} className={classes.btnUpload}>
+        <Button onClick={handleUploaderSubmit} className={classes.btnUpload}>
           Submit
         </Button>
       </DialogActions>
@@ -340,7 +394,7 @@ const PrimarySearchAppBar = (props) => {
             onClick={handleProfileMenuOpen}
             color="inherit"
           >
-           <Avatar alt="Challenger" src={props.state.user.avatar}/>
+            <Avatar alt="Challenger" src={props.state.user.avatar} />
           </IconButton>
           {renderMenu}
         </Toolbar>
@@ -350,11 +404,10 @@ const PrimarySearchAppBar = (props) => {
 }
 
 const mapStateToProps = (state) => ({ state });
-
-const mapDispatchToProps = (dispatch) => {
-  return  {
-    fetchLogout: () => dispatch(fetchLogOutAC())
-  }
-};
+const mapDispatchToProps = (dispatch) => ({
+  updateUser: (user) => dispatch(addUserAC(user)),
+  updateChallenges: (challenge) => dispatch(addChallengeAC(challenge)),
+  fetchLogout: () => dispatch(fetchLogOutAC())
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PrimarySearchAppBar);

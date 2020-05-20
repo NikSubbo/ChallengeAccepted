@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Comments from '../../components/Comments/Comments';
 import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
-
+import Player from '../../components/Player/Player';
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,12 +29,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Challenge() {
+const Challenge = (props) => {
   const classes = useStyles();
-
+  
+console.log(props.state.challenges)
   return (
     <Fragment>
-      <NavBarIn/>
+      <NavBarIn />
       <Container className={classes.container}>
         <Grid container justify="center" spacing={3}>
           <Grid item xs={11} sm={11} md={6} lg={6} xl={6}>
@@ -42,15 +44,7 @@ export default function Challenge() {
                 <Typography color="primary" variant="h3" component="h3" align="center">Bottle Cup Challenge</Typography>
                 <Divider />
                 <Box height="auto" className={classes.box}>
-                  <div className="video" style={{
-                    position: "relative", paddingBottom: "56.25%", paddingTop: 25, 
-                  }}
-                  >
-                    <iframe src="https://player.vimeo.com/video/407745497?autoplay=1&loop=1&color=ef8600&title=0&byline=0&portrait=0&badge=0"
-                      style={{
-                        position: 'absolute', top: '0', left: '0', width: '100%', height: '100%'
-                      }} frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-                  </div>
+                  <Player url={props.state.challenges[0].url} />
                 </Box>
               </Paper>
               <CardHeader
@@ -75,3 +69,7 @@ export default function Challenge() {
     </Fragment>
   )
 }
+
+const mapStateToProps = (state) => ({ state });
+
+export default connect(mapStateToProps)(Challenge);

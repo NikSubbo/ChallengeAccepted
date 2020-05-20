@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography, IconButton } from '@material-ui/core/';
 import Player from '../Player/Player';
-
+import { connect } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ChallengeCard(props) {
+const ChallengeCard = (props) => {
   const classes = useStyles();
 
   return (
@@ -54,3 +54,7 @@ export default function ChallengeCard(props) {
     </Card>
   );
 }
+
+const mapStateToProps = (state) => ({ state });
+
+export default connect(mapStateToProps)(ChallengeCard);

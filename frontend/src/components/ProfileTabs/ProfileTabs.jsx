@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { AppBar, Box, Grid, Tab, Tabs, Typography } from '@material-ui/core/';
+import { connect } from 'react-redux';
 
 import ChallengeCard from '../ChallengeCard/ChallengeCard'
 
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function ProfileTabs() {
+const ProfileTabs = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -92,9 +93,6 @@ export default function ProfileTabs() {
           <Grid container spacing={3} >
             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
             <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
@@ -114,5 +112,8 @@ export default function ProfileTabs() {
   );
 }
 
+const mapStateToProps = (state) => ({ state });
+
+export default connect(mapStateToProps)(ProfileTabs);
 
 

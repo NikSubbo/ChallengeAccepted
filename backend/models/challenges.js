@@ -9,15 +9,15 @@ const challengeSchema = new mongoose.Schema({
   likes: Number,
   date: Date,
   user: userSchema,
-  answers: {
+  answers: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-  }
+  }]
 });
 
 const Challenge = mongoose.model('Challenge', challengeSchema);
 
 module.exports = {
   Challenge,
-  challengeSchema,
+  challengeSchema
 }
