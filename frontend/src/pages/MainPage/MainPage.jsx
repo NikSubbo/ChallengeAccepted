@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
 import { connect } from 'react-redux';
-import { fetchUserAC } from '../../redux/action-creator';
-import MainTabs from '../../components/MainTabs/MainTabs'
+import { fetchUserAC, fetchChallengesAC } from '../../redux/action-creator';
+import MainTabs from '../../components/MainTabs/MainTabs';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Container } from '@material-ui/core';
 
@@ -18,34 +18,64 @@ const MainPage = (props) => {
 
   const classes = useStyles();
 
+  const [searchInput, setSearchInput] = useState({ searchField: '' });
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setSearchInput({
+      ...searchInput,
+      searchField: value,
+    });
+  };
+
+  const handleSearch = () => {
+    if (searchInput.searchField) {
+      return props.challenges.filter((challenge) =>
+        challenge.hashtags.includes(
+          String(searchInput.searchField.toLowerCase())
+        )
+      );
+    } else {
+      return props.challenges;
+    }
+  };
+
   const fetchData = async () => {
     await props.fetchUser();
-  }
+  };
+
+  const fetchDataChallenges = async () => {
+    await props.fetchChallenges();
+  };
 
   useEffect(() => {
+    if (!props.challenges.length) {
+      fetchDataChallenges();
+    }
     if (!props.user) {
       fetchData();
     }
-  }, [props.user])
+  }, []);
 
   return (
     <Fragment>
-      <NavBarIn />
+      <NavBarIn handleChange={handleChange} />
       <Container className={classes.container}>
         <Grid item xs={12}>
-          <MainTabs />
+          <MainTabs challenges={handleSearch()} />
         </Grid>
       </Container>
     </Fragment>
-  )
-}
+  );
+};
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchUser: (user) => dispatch(fetchUserAC(user)),
+  fetchChallenges: () => dispatch(fetchChallengesAC()),
 });
 
 const mapStateToProps = (state) => {
   return state;
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

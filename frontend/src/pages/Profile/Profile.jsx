@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
   large: {
     width: theme.spacing(20),
-    height: 'auto',
+    height: theme.spacing(20),
     textAlign: 'left',
     margin: 'auto'
   },
@@ -30,10 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Profile(props) {
   const classes = useStyles();
-
-  useEffect(() => {
-
-  }, [props.user]);
 
   const handleImgUploading = (e) => {
     const img = e.target.files[0];
@@ -61,26 +57,25 @@ function Profile(props) {
   return (
     <Fragment>
       <NavBarIn />
-      {/* <Container className={classes.container}>
+      <Container className={classes.container}>
         <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={3}>
           <Grid item xs={12} sm={5} md={5} lg={4} xl={4}>
             <Paper className={classes.paper}>
-              <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={2}> */}
-      <Grid item xs={6} sm={12} md={6} lg={6} xl={6}>
-        <Avatar alt="Van Damme" src={props.user.avatar} className={classes.large} />
-        <input
-          accept="image/*"
-          className={classes.input}
-          style={{ display: 'none' }}
-          id="raised-button-file"
-          type="file"
-          onChange={handleImgUploading}
-        />
-        <label htmlFor="raised-button-file">
-          <Button variant="raised" component="span" className={classes.button}>Upload Avatar</Button>
-        </label>
-      </Grid>
-      {/* <Grid item xs={6} sm={12} md={6} lg={6} xl={6}>
+              <Grid container direction="row" justify="flex-start" alignItems="stretch" spacing={2}>
+                <Grid item xs={6} sm={12} md={6} lg={6} xl={6}>
+                  <Avatar alt="Challenger" src={props.user.avatar} className={classes.large} />
+                  <input
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    id="raised-button-file"
+                    type="file"
+                    onChange={handleImgUploading}
+                  />
+                  <label htmlFor="raised-button-file">
+                    <Button variant="raised" component="span" className={classes.button}>Upload Avatar</Button>
+                  </label>
+                </Grid>
+                <Grid item xs={6} sm={12} md={6} lg={6} xl={6}>
                   <Box mx="auto" my="10px">
                     <Typography variant="subtitle1" >Followers: </Typography><Typography variant="h5" >10 </Typography>
                     <Typography variant="subtitle1" >Following: </Typography><Typography variant="h5" >165 </Typography>
@@ -102,7 +97,7 @@ function Profile(props) {
             </Paper>
           </Grid>
         </Grid>
-      </Container> */}
+      </Container>
     </Fragment>
   );
 }

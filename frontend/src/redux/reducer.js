@@ -1,9 +1,8 @@
-import { ADD_USER, SEARCH_BY_HASHTAG, RECEIVE_USER } from './action';
+import { ADD_USER, ADD_CHALLENGE, RECEIVE_USER } from './action';
 
 const initialState = {
   user: '',
   challenges: [],
-  filteredChallenges: [],
 }
 
 export const reducer = (state = initialState, action) => {
@@ -11,11 +10,8 @@ export const reducer = (state = initialState, action) => {
     case ADD_USER:
       return { ...state, user: action.newUser }
 
-    case SEARCH_BY_HASHTAG:
-      return {
-        ...state,
-        filteredChallenges: state.challenges.filter(challenge => challenge.hashtags.includes(action.payload.toLowerCase()))
-      }
+    case ADD_CHALLENGE:
+      return { ...state, challenges: [...state.challenges, action.newChallenge] }
 
     case RECEIVE_USER:
       return { ...state, ['user']: action.user };

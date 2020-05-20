@@ -2,7 +2,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 const bcrypt = require('bcrypt');
-const User = require('../models/users');
+const { User } = require('../models/users');
 const CLIENT_MAIN_PAGE_URL = 'http://localhost:3000/main';
 const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
 

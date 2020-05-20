@@ -2,9 +2,9 @@ const express = require("express");
 const parser = require('../middleware/img-upload');
 
 const router = express.Router();
-const User = require('../models/users')
+const { User } = require('../models/users')
 
-router.post('/uploadImg', parser.single('file'), async (req, res, next) => { 
+router.post('/uploadImg', parser.single('file'), async (req, res, next) => {
   try {
     const image = {};
     image.url = req.file.url;
@@ -15,10 +15,11 @@ router.post('/uploadImg', parser.single('file'), async (req, res, next) => {
   }
 });
 
-router.put('/:id', async (req, res, next) => { 
+router.put('/:id', async (req, res, next) => {
   try {
     const { id, imageUrl } = req.body;
-    const user = await User.findByIdAndUpdate(id, { $set: { avatar: imageUrl } });
+    await User.findByIdAndUpdate(id, { $set: { avatar: imageUrl } });
+    const user = await User.findById(id);
     res.send({ user });
   } catch (error) {
     next(error);

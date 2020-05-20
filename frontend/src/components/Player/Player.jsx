@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactPlayer from 'react-player';
 
-class Player extends Component {
-  render() {
+const Player = (props) => {
     return (
         <ReactPlayer
           className='react-player'
-          url='https://vimeo.com/78059989'
+          url={props.url}
           controls
           width='100%'
           height='100%'
         />
     )
-  }
 }
 
 export default Player;
