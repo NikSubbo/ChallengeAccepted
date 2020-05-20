@@ -31,8 +31,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import avatarImage from '../../assets/van-damme.jpg';
 import logoImage from '../../assets/logo.png';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { searchTextAC } from '../../redux/action-creator';
-// import { connect } from 'react-redux';
+import { searchTextAC, fetchLogOutAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -176,6 +175,10 @@ const PrimarySearchAppBar = (props) => {
     setVideo(file);
   };
 
+  const handleLogout = () => {
+    props.fetchLogout();
+  }
+
   const renderUploader = (
     <Dialog
       open={openUploader}
@@ -229,7 +232,7 @@ const PrimarySearchAppBar = (props) => {
           My Profile
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
+      <MenuItem onClick={handleMenuClose, handleLogout}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -348,4 +351,10 @@ const PrimarySearchAppBar = (props) => {
 
 const mapStateToProps = (state) => ({ state });
 
-export default connect(mapStateToProps)(PrimarySearchAppBar);
+const mapDispatchToProps = (dispatch) => {
+  return  {
+    fetchLogout: () => dispatch(fetchLogOutAC())
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrimarySearchAppBar);

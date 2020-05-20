@@ -1,4 +1,4 @@
-import { ADD_USER, ADD_CHALLENGE, RECEIVE_USER } from './action';
+import { ADD_USER, ADD_CHALLENGE, RECEIVE_USER, LOGOUT } from './action';
 
 const initialState = {
   user: '',
@@ -15,6 +15,9 @@ export const reducer = (state = initialState, action) => {
 
     case RECEIVE_USER:
       return { ...state, ['user']: action.user };
+
+    case LOGOUT:
+      return { ...state, user: action.newUser };
 
     default:
       return { ...state }
