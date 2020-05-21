@@ -73,11 +73,11 @@ export const fetchLoginAC = (email, password) => {
 };
 
 export const fetchLogOutAC = () => {
-  return async(dispatch) => {
+  return async (dispatch) => {
     const response = await fetch('/auth/logout', {
       method: 'GET',
     });
-    if(response.redirected) {
+    if (response.redirected) {
       dispatch(logoutAC)
       window.location.href = response.url;
     }
@@ -99,6 +99,28 @@ export const fetchChallengesAC = () => {
   };
 };
 
+export const fetchChallengeUploadAC = (userId, title, description, hashtags, data, handleUploaderClose) => {
+  return (dispatch) => {
+    fetch(`/challenges/uploadVideo`, {
+      method: 'POST',
+      body: data
+    })
+      .then(res => res.json())
+      .then(videoUrl => fetch(`/challenges/createChallenge`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoUrl: videoUrl.videoUrl, userId, title, description, hashtags })
+      }))
+      .then(res => res.json())
+      .then(result => {
+        dispatch(addUserAC(result.updatedUser))
+        dispatch(addChallengeAC(result.challenge))
+        handleUploaderClose();
+      })
+      .catch(err => console.log(err))
+  }
+}
+
 export const fetchLikeAC = (userId, challengeId) => {
   return async (dispatch) => {
     const response = await fetch(`/challenges/${challengeId}/like`, {
@@ -113,6 +135,6 @@ export const fetchLikeAC = (userId, challengeId) => {
     });
     if (response.ok) {
       dispatch(addLikeAC(userId, challengeId));
-    } 
+    }
   }
 }

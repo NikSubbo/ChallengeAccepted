@@ -6,6 +6,7 @@ import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
 import Player from '../../components/Player/Player';
 import { connect } from 'react-redux';
+import UploadVideoBtn from '../../components/UploadVideoBtn/UploadVideoBtn';
 import { fetchUserAC, fetchChallengesAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,7 @@ const Challenge = (props) => {
   }, []);
 
   const challenge = props.state.challenges.find((challenge) => challenge._id === props.match.params.id)
-  
+
   return (
     <Fragment>
       <NavBarIn />
@@ -74,6 +75,12 @@ const Challenge = (props) => {
               <Paper className={classes.paper}>
                 <Typography align="justify">{challenge.description}</Typography></Paper>
               <Divider />
+              <UploadVideoBtn
+                btnName={"Answer Challenge"}
+                formTitle={"Upload answer to the Challenge"}
+                formDescription={"Can you do better? If yes, load your video and show, how it should be!"}
+                challengeTitle={challenge.title}
+              />
               <Comments challenge={challenge} user={props.state.user} />
             </Grid>
           </Grid>
