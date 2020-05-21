@@ -48,4 +48,24 @@ router.post('/createChallenge', async (req, res, next) => {
   }
 });
 
+router.put('/:id/like', async (req, res, next) => {
+  try {
+    const { _id, userId } = req.body;
+    let updated;
+    const challenge = await Challenge.findOne({ _id });
+    if (challenge.likes.includes(userId)) {
+      updated = await Challenge.updateOne({ _id }, { $pull: { likes: userId } });
+    } else {
+      updated = await Challenge.updateOne({ _id }, { $push: { likes: userId } });
+    }
+    if (updated.nModified > 0) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(500);
+    }
+  } catch (error) {
+    next(error);
+  }
+})
+
 module.exports = router;

@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE } from './action';
+import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -13,6 +13,12 @@ export const logoutAC = () => ({
 export const addChallengeAC = (challenge) => ({
   type: ADD_CHALLENGE,
   newChallenge: challenge,
+});
+
+export const addLikeAC = (userId, challengeId) => ({
+  type: ADD_LIKE,
+  newLike: userId,
+  challenge: challengeId,
 });
 
 export const fetchUserAC = () => {
@@ -112,5 +118,23 @@ export const fetchChallengeUploadAC = (userId, title, description, hashtags, dat
         handleUploaderClose();
       })
       .catch(err => console.log(err))
+  }
+}
+
+export const fetchLikeAC = (userId, challengeId) => {
+  return async (dispatch) => {
+    const response = await fetch(`/challenges/${challengeId}/like`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: challengeId,
+        userId: userId,
+      }),
+    });
+    if (response.ok) {
+      dispatch(addLikeAC(userId, challengeId));
+    }
   }
 }
