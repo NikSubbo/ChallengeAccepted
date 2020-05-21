@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE } from './action';
+import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE, LOADING } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -19,6 +19,10 @@ export const addLikeAC = (userId, challengeId) => ({
   type: ADD_LIKE,
   newLike: userId,
   challenge: challengeId,
+});
+
+export const loadingAC = () => ({
+  type: LOADING,
 });
 
 export const fetchUserAC = () => {
@@ -101,6 +105,7 @@ export const fetchChallengesAC = () => {
 
 export const fetchChallengeUploadAC = (userId, title, description, hashtags, data, handleUploaderClose, original) => {
   return (dispatch) => {
+    dispatch(loadingAC())
     fetch(`/challenges/uploadVideo`, {
       method: 'POST',
       body: data
