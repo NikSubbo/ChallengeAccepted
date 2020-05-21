@@ -63,8 +63,8 @@ const ChallengeCard = (props) => {
       </CardContent>
       <Box mx='50px'><CardActions>
 
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon className={classes.like} onClick={handleLike} />
+        <IconButton onClick={handleLike} >
+          <FavoriteIcon className={classes.like} />
         </IconButton>
         <Typography variant="body2" color="textSecondary" component="p">{props.challenge.likes.length}</Typography>
 

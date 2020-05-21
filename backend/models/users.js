@@ -15,10 +15,6 @@ const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
-  challenges: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Challenge'
-  }]
 });
 const User = mongoose.model('User', userSchema);
 

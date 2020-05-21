@@ -35,7 +35,8 @@ router.post('/uploadVideo', parser.single('file'), async (req, res, next) => {
 
 router.post('/createChallenge', async (req, res, next) => {
   try {
-    const { userId, videoUrl, title, description, hashtags } = req.body;
+    const { userId, videoUrl, title, description, hashtags, original } = req.body;
+    console.log(req.body);
     const user = await User.findById(userId);
     let hashtag = hashtags.match(/([\w\d]*){3,}/gm);
     hashtag = hashtag.filter(el => el.length >= 3);
@@ -48,7 +49,7 @@ router.post('/createChallenge', async (req, res, next) => {
       likes: [],
       date: moment(new Date()).format('LL'),
       user: user,
-      answers: [],
+      original: original,
     });
     await User.findByIdAndUpdate(userId, { $push: { challenges: challenge._id } });
     const updatedUser = await User.findById(userId);
@@ -81,7 +82,6 @@ router.put('/:id/like', async (req, res, next) => {
 router.post('/newComment', async (req, res, next) => {
   try {
     const { userId, textComment, challengeId } = req.body;
-    //console.log('Back', challengeId, userId, textComment)
     const user = await User.findById(userId);
     const challenge = await Challenge.findById(challengeId);
     const comment = await Comment.create({
@@ -91,10 +91,6 @@ router.post('/newComment', async (req, res, next) => {
       likes: 0,
       challenge: challenge,
     });
-
-    // const updatedComment = await Comment.find({ challenge: challengeId });
-    // console.log("updatedComments", updatedComment)
-    // const updat, edUser = await User.findById(userId);
     res.send({ comment });
   } catch (error) {
     next(error);

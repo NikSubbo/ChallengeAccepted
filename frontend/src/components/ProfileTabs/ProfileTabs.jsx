@@ -5,7 +5,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { AppBar, Box, Grid, Tab, Tabs, Typography } from '@material-ui/core/';
 import { connect } from 'react-redux';
 
-import ChallengeCard from '../ChallengeCard/ChallengeCard'
+import ChallengeCard from '../ChallengeVideoCard/ChallengeVideoCard';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const ProfileTabs = () => {
+const ProfileTabs = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -91,20 +91,47 @@ const ProfileTabs = () => {
       >
         <TabPanel value={value} index={0} dir={theme.direction} >
           <Grid container spacing={3} >
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
+            {
+              props.myChallenges.length
+                ? props.myChallenges.map((challenge) => {
+                  return (
+                    <Grid key={challenge._id} item xs={12} sm={6} md={4} lg={4} xl={4}>
+                      <ChallengeCard challenge={challenge} />
+                    </Grid>
+                  )
+                })
+                : null
+            }
           </Grid>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <Grid container spacing={3} >
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
-            <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
+          {
+              props.myAnswers.length
+                ? props.myAnswers.map((challenge) => {
+                  return (
+                    <Grid key={challenge._id} item xs={12} sm={6} md={4} lg={4} xl={4}>
+                      <ChallengeCard challenge={challenge} />
+                    </Grid>
+                  )
+                })
+                : null
+            }
             </Grid>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           <Grid container spacing={3} > 
-          <Grid item xs={12} sm={6} md={4} lg={4} xl={4}><ChallengeCard /></Grid>
+          {
+              props.myLikes.length
+                ? props.myLikes.map((challenge) => {
+                  return (
+                    <Grid key={challenge._id} item xs={12} sm={6} md={4} lg={4} xl={4}>
+                      <ChallengeCard challenge={challenge} />
+                    </Grid>
+                  )
+                })
+                : null
+            }
           </Grid>
         </TabPanel>
       </SwipeableViews>

@@ -26,27 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Comments = (props) => {
   const classes = useStyles();
-  let allComm
-  //let allComm = props.state.comments.filter(el => el.challenge == props.challengeId)
-  console.log('allComm', allComm, 'props.state.comments', props.state.comments)
   const [newComment, setNewComment] = React.useState(
     { textComment: '' },
   );
-  // const [thisComments, setThisComments] = React.useState(
-  //   allComm
-  // );
-  //console.log('thisCommentsOrig', thisComments)
-
-  useEffect(() => {
-    console.log('useEffect')
-    allComm = props.state.comments.filter(el => el.challenge == props.challengeId)
-  }, [props.state.comments]);
 
   const changeInputHandler = (e) => {
     const textComment = e.target.value;
-    //console.log('e.target', e.target.value)
-    
-    //console.log('textComment', textComment)
     setNewComment({
       ...newComment,
       textComment,
@@ -65,29 +50,12 @@ const Comments = (props) => {
       .then(res => res.json())
       .then(result => {
         props.updateComments(result.comment);
-        //console.log(props)
-        //setThisComments(props.state.comments.filter(el => el.challenge == props.challengeId))
-        // console.log('thisComments', thisComments)
-        //console.log('setThisComments', setThisComments)
-        //console.log('props.state.comments', props.state.comments)
       })
       .catch(err => console.log(err))
   };
 
-  // async function fetchData() {
-  //   return thisComments = await props.state.comments.filter(el => el.challenge === props.challengeId)
-  // }
-
-
-
-
-  //console.log('PROPS', props)
-  console.log('PROPS.STATE.COMMNETS', props.state.comments)
-
-  //props.state.comments.filter(ele => ele.challenge == props.challengeId).map(opt => someNewObject)
-  // let thisComments = props.state.comments.filter(el => el.challenge === props.challengeId)
-  // console.log('thisComments', thisComments)
-
+  //console.log('PROPS.STATE.COMMNETS', props.state.comments)
+  
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
@@ -102,32 +70,33 @@ const Comments = (props) => {
         </form>
       </ListItem>
 
-      {!allComm ? console.log('false') : allComm.slice(0).reverse().map(el => {
-        return (
-          // {props.state.comments.filter(ele => ele.challenge == props.challengeId).map(el => {return (
-          <ListItem key={el._id} alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt={props.state.user.name} src={el.user.avatar} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={el.user.name}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {el.text}
-                  </Typography>
-                  {`   / ` + el.date}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-        )
-      })
+      {!props.filteredComments.length
+        ? null
+        : props.filteredComments.slice(0).reverse().map(el => {
+          return (
+            <ListItem key={el._id} alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar alt={props.state.user.name} src={el.user.avatar} />
+              </ListItemAvatar>
+              <ListItemText
+                primary={el.user.name}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                    >
+                      {el.text}
+                    </Typography>
+                    {`   / ` + el.date}
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          )
+        })
       }
 
     </List>

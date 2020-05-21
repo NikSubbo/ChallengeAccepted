@@ -20,6 +20,8 @@ router.post('/signup', async (req, res, next) => {
         email,
         avatar: '',
         password: await bcrypt.hash(password, saltRounds),
+        followers: [],
+        following: [],
       });
       res.redirect(307, '/auth/login');
     }
