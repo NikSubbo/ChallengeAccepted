@@ -66,7 +66,9 @@ passport.use(
           name: profile._json.name,
           avatar: profile._json.picture,
           email: profile._json.email,
-          googleId: profile.id
+          googleId: profile.id,
+          followers: [],
+          following: [],
         });
         if (newUser) {
           done(null, newUser);
@@ -94,7 +96,9 @@ passport.use(
         const newUser = await User.create({
           name: profile._json.name,
           avatar: `https://graph.facebook.com/${profile.id}/picture?width=200&height=200&access_token=${accessToken}`,
-          facebookId: profile._json.id
+          facebookId: profile._json.id,
+          followers: [],
+          following: [],
         });
         if (newUser) {
           done(null, newUser);

@@ -99,6 +99,7 @@ const PrimarySearchAppBar = (props) => {
           </div>
           {props.state.user.name !== "" ?
             <UploadVideoBtn
+              original={true}
               btnName={"Upload challenge"}
               formTitle={"Upload Challenge"}
               formDescription={"To upload your Challenge, please enter its title, description and attach video file. Thank You!"}
