@@ -5,6 +5,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography, IconButton } from '@material-ui/core/';
 import Player from '../Player/Player';
 import { connect } from 'react-redux';
+import { fetchLikeAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 const ChallengeCard = (props) => {
   const classes = useStyles();
+
+  const handleLike = () => {
+    const userId = props.state.user._id;
+    const challengeId = props.challenge._id;
+    props.fetchLike(userId, challengeId);
+  }
 
   return (
     <Card className={classes.root}>
@@ -57,7 +64,7 @@ const ChallengeCard = (props) => {
       <Box mx='50px'><CardActions>
 
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon className={classes.like} />
+          <FavoriteIcon className={classes.like} onClick={handleLike} />
         </IconButton>
         <Typography variant="body2" color="textSecondary" component="p">{props.challenge.likes.length}</Typography>
 
@@ -70,5 +77,8 @@ const ChallengeCard = (props) => {
 }
 
 const mapStateToProps = (state) => ({ state });
+const mapDispatchToProps = (dispatch) => ({
+  fetchLike: (id, userId) => dispatch(fetchLikeAC(id, userId)),
+});
 
-export default connect(mapStateToProps)(ChallengeCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ChallengeCard);
