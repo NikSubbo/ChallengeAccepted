@@ -1,4 +1,4 @@
-import { ADD_USER, ADD_CHALLENGE, LOGOUT, ADD_LIKE } from './action';
+import { ADD_USER, ADD_CHALLENGE, LOGOUT, ADD_LIKE, LOADING } from './action';
 
 const initialState = {
   user: {
@@ -12,6 +12,7 @@ const initialState = {
     challenges: [],
   },
     challenges: [],
+    loading: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -20,7 +21,7 @@ export const reducer = (state = initialState, action) => {
       return { ...state, user: action.newUser }
 
     case ADD_CHALLENGE:
-      return { ...state, challenges: [...state.challenges, action.newChallenge] }
+      return { ...state, challenges: [...state.challenges, action.newChallenge], loading: false }
 
     case ADD_LIKE:
       let updatedChallenges = state.challenges;
@@ -37,6 +38,9 @@ export const reducer = (state = initialState, action) => {
 
     case LOGOUT:
       return { ...state, user: action.newUser }
+
+    case LOADING:
+      return { ...state, loading: true}
 
     default:
       return { ...state }
