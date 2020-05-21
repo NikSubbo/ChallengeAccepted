@@ -1,6 +1,8 @@
-import React from 'react';
-import { TextField, List, ListItem, ListItemText, ListItemAvatar, Typography, Avatar } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { Button, TextField, List, ListItem, ListItemText, ListItemAvatar, Typography, Avatar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { addCommentAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -10,86 +12,154 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  btnUpload: {
+    fontSize: '1rem',
+    fontWeight: '700',
+    backgroundColor: '#FAA916',
+    color: '#FBFFFE',
+    '&:hover': {
+      backgroundColor: '#96031A',
+      color: '#FAA916',
+    },
+  },
 }));
 
-export default function Comments() {
+const Comments = (props) => {
   const classes = useStyles();
+  let allComm
+  //let allComm = props.state.comments.filter(el => el.challenge == props.challengeId)
+  console.log('allComm', allComm, 'props.state.comments', props.state.comments)
+  const [newComment, setNewComment] = React.useState(
+    { textComment: '' },
+  );
+  // const [thisComments, setThisComments] = React.useState(
+  //   allComm
+  // );
+  //console.log('thisCommentsOrig', thisComments)
+
+  useEffect(() => {
+    console.log('useEffect')
+    allComm = props.state.comments.filter(el => el.challenge == props.challengeId)
+  }, [props.state.comments]);
+
+  const changeInputHandler = (e) => {
+    const textComment = e.target.value;
+    //console.log('e.target', e.target.value)
+    
+    //console.log('textComment', textComment)
+    setNewComment({
+      ...newComment,
+      textComment,
+    })
+  };
+
+  const handleNewCommentSubmit = () => {
+    const userId = props.user._id;
+    const { challengeId } = props;
+    const textComment = newComment.textComment;
+    const response = fetch(`/challenges/newComment`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, textComment, challengeId })
+    })
+      .then(res => res.json())
+      .then(result => {
+        props.updateComments(result.comment);
+        //console.log(props)
+        //setThisComments(props.state.comments.filter(el => el.challenge == props.challengeId))
+        // console.log('thisComments', thisComments)
+        //console.log('setThisComments', setThisComments)
+        //console.log('props.state.comments', props.state.comments)
+      })
+      .catch(err => console.log(err))
+  };
+
+  // async function fetchData() {
+  //   return thisComments = await props.state.comments.filter(el => el.challenge === props.challengeId)
+  // }
+
+
+
+
+  //console.log('PROPS', props)
+  console.log('PROPS.STATE.COMMNETS', props.state.comments)
+
+  //props.state.comments.filter(ele => ele.challenge == props.challengeId).map(opt => someNewObject)
+  // let thisComments = props.state.comments.filter(el => el.challenge === props.challengeId)
+  // console.log('thisComments', thisComments)
+
   return (
     <List className={classes.root}>
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Ali Connors" src="" />
+          <Avatar alt="Challenger" src={props.state.user.avatar} />
         </ListItemAvatar>
         <form className={classes.root} noValidate autoComplete="off">
-          <TextField id="standard-basic" label="Add Comment" />
+          <TextField id="textComment" name="textComment" label="Add Comment" fullWidth onChange={changeInputHandler} />
+          <Button onClick={handleNewCommentSubmit} className={classes.btnUpload}>
+            Add
+        </Button>
         </form>
       </ListItem>
 
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Ali Connors" src="" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Ali Connors"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                — I'll be in your neighborhood doing errands this…
-              </Typography>
-              {" 11/05/2020 "}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
+      {!allComm ? console.log('false') : allComm.slice(0).reverse().map(el => {
+        return (
+          // {props.state.comments.filter(ele => ele.challenge == props.challengeId).map(el => {return (
+          <ListItem key={el._id} alignItems="flex-start">
+            <ListItemAvatar>
+              <Avatar alt={props.state.user.name} src={el.user.avatar} />
+            </ListItemAvatar>
+            <ListItemText
+              primary={el.user.name}
+              secondary={
+                <React.Fragment>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                  >
+                    {el.text}
+                  </Typography>
+                  {`   / ` + el.date}
+                </React.Fragment>
+              }
+            />
+          </ListItem>
+        )
+      })
+      }
 
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Scott Summer" src="" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Scott Summer"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                — I'll be in your neighborhood doing errands this… Hurra!
-        </Typography>
-              {" 12/05/2020 "}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
-
-      <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar alt="Cindy Baker" src="" />
-        </ListItemAvatar>
-        <ListItemText
-          primary="Cindy Baker"
-          secondary={
-            <React.Fragment>
-              <Typography
-                component="span"
-                variant="body2"
-                className={classes.inline}
-                color="textPrimary"
-              >
-                — I'll be in your neighborhood doing errands this… Hurra! Hurra!
-        </Typography>
-              {' 14/05/2020 '}
-            </React.Fragment>
-          }
-        />
-      </ListItem>
     </List>
   )
 }
+
+const mapStateToProps = (state) => ({ state });
+const mapDispatchToProps = (dispatch) => ({
+  updateComments: (comment) => dispatch(addCommentAC(comment)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comments);
+
+
+// <ListItem alignItems="flex-start">
+//         <ListItemAvatar>
+//           <Avatar alt="Ali Connors" src="" />
+//         </ListItemAvatar>
+//         <ListItemText
+//           primary="Ali Connors"
+//           secondary={
+//             <React.Fragment>
+//               <Typography
+//                 component="span"
+//                 variant="body2"
+//                 className={classes.inline}
+//                 color="textPrimary"
+//               >
+//                 — I'll be in your neighborhood doing errands this…
+//               </Typography>
+//               {" 11/05/2020 "}
+//             </React.Fragment>
+//           }
+//         />
+//       </ListItem>

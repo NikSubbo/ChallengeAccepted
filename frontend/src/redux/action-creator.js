@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE } from './action';
+import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE, ADD_COMMENT } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -19,6 +19,11 @@ export const addLikeAC = (userId, challengeId) => ({
   type: ADD_LIKE,
   newLike: userId,
   challenge: challengeId,
+})
+
+export const addCommentAC = (comment) => ({
+  type: ADD_COMMENT,
+  newComment: comment,
 });
 
 export const fetchUserAC = () => {
@@ -138,3 +143,20 @@ export const fetchLikeAC = (userId, challengeId) => {
     }
   }
 }
+
+export const fetchCommentsAC = () => {
+  return async (dispatch) => {
+    const response = await fetch('/challenges/comments', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    for (let i = 0; i < result.length; i++) {
+      dispatch(addCommentAC(result[i]));
+    }
+  };
+};
+
+

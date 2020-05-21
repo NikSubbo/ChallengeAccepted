@@ -11,7 +11,7 @@ const challengeSchema = new mongoose.Schema({
   user: userSchema,
   answers: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'Challenge',
   }]
 });
 

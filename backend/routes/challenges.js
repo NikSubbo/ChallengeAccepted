@@ -1,5 +1,6 @@
-const { Challenge, ChallengeO } = require('../models/challenges');
+const { Challenge } = require('../models/challenges');
 const { User } = require('../models/users')
+const { Comment } = require('../models/comments')
 const router = require('express').Router();
 const parser = require('../middleware/video-upload');
 const moment = require('moment');
@@ -8,6 +9,15 @@ router.get('/', async (req, res, next) => {
   try {
     const challenges = await Challenge.find({});
     res.send(challenges);
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/comments', async (req, res, next) => {
+  try {
+    const comments = await Comment.find({});
+    res.send(comments);
   } catch (error) {
     next(error)
   }
@@ -67,5 +77,28 @@ router.put('/:id/like', async (req, res, next) => {
     next(error);
   }
 })
+
+router.post('/newComment', async (req, res, next) => {
+  try {
+    const { userId, textComment, challengeId } = req.body;
+    //console.log('Back', challengeId, userId, textComment)
+    const user = await User.findById(userId);
+    const challenge = await Challenge.findById(challengeId);
+    const comment = await Comment.create({
+      user: user,
+      text: textComment,
+      date: moment(new Date()).format('LL'),
+      likes: 0,
+      challenge: challenge,
+    });
+
+    // const updatedComment = await Comment.find({ challenge: challengeId });
+    // console.log("updatedComments", updatedComment)
+    // const updat, edUser = await User.findById(userId);
+    res.send({ comment });
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;

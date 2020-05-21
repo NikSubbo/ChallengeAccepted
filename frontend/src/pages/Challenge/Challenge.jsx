@@ -7,7 +7,7 @@ import NavBarIn from '../../components/NavBarIn/NavBarIn';
 import Player from '../../components/Player/Player';
 import { connect } from 'react-redux';
 import UploadVideoBtn from '../../components/UploadVideoBtn/UploadVideoBtn';
-import { fetchUserAC, fetchChallengesAC } from '../../redux/action-creator';
+import { fetchUserAC, fetchChallengesAC, fetchCommentsAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +42,10 @@ const Challenge = (props) => {
     await props.fetchChallenges();
   };
 
+  const fetchDataComments = async () => {
+    await props.fetchComments();
+  };
+
   useEffect(() => {
     if (!props.state.challenges.length) {
       fetchDataChallenges();
@@ -49,10 +53,17 @@ const Challenge = (props) => {
     if (!props.user) {
       fetchData();
     }
+    if (!props.state.comments.length) {
+      fetchDataComments();
+    }
   }, []);
 
   const challenge = props.state.challenges.find((challenge) => challenge._id === props.match.params.id)
-
+  const comment = props.state.comments.filter((comment) => comment.challenge === props.match.params.id)
+  // console.log('STATE', props.state)
+  // console.log('COMMENTS', comment)
+  // console.log('challenge._id', challenge._id)
+  // console.log('USER', props.state.user)
   return (
     <Fragment>
       <NavBarIn />
@@ -81,10 +92,10 @@ const Challenge = (props) => {
                 formDescription={"Can you do better? If yes, load your video and show, how it should be!"}
                 challengeTitle={challenge.title}
               />
-              <Comments challenge={challenge} user={props.state.user} />
+             <Comments challengeId={challenge._id} comment={comment} user={props.state.user} />
             </Grid>
           </Grid>
-          <Grid item xs={11} sm={11} md={3} lg={3} xl={3} autoWidth={false}>
+          <Grid item xs={11} sm={11} md={3} lg={3} xl={3}>
             <Paper style={{ overflow: 'auto' }}>
               <AnswerCard />
             </Paper>
@@ -99,6 +110,7 @@ const mapStateToProps = (state) => ({ state });
 const mapDispatchToProps = (dispatch) => ({
   fetchUser: (user) => dispatch(fetchUserAC(user)),
   fetchChallenges: () => dispatch(fetchChallengesAC()),
+  fetchComments: () => dispatch(fetchCommentsAC()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Challenge);

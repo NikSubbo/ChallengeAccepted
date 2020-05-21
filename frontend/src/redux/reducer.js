@@ -1,4 +1,4 @@
-import { ADD_USER, ADD_CHALLENGE, LOGOUT, ADD_LIKE } from './action';
+import { ADD_USER, ADD_CHALLENGE, ADD_COMMENT, LOGOUT, ADD_LIKE } from './action';
 
 const initialState = {
   user: {
@@ -12,6 +12,7 @@ const initialState = {
     challenges: [],
   },
     challenges: [],
+    comments: [],
 }
 
 export const reducer = (state = initialState, action) => {
@@ -34,6 +35,9 @@ export const reducer = (state = initialState, action) => {
       }
       updatedChallenges.splice(index, 1, challenge);
       return { ...state,  challenges: updatedChallenges }
+    
+    case ADD_COMMENT:
+      return { ...state, comments: [...state.comments, action.newComment] }
 
     case LOGOUT:
       return { ...state, user: action.newUser }
