@@ -90,7 +90,6 @@ function LoginForm(props) {
     e.preventDefault();
     const { email, password } = userInput;
     const result = await props.fetchLogin(email, password);
-    console.log(props);
     if (result.user) {
       window.location.href = 'http://localhost:3000/main';
     } else {

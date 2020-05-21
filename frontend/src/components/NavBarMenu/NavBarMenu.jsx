@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NavBarMenu = (props) => {
-  console.log(props);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
 
