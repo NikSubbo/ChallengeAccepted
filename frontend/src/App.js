@@ -3,8 +3,6 @@ import './App.css';
 import {
   Switch,
   Route,
-  Link,
-  Redirect
 } from "react-router-dom";
 import HomePage from './pages/Homepage/Homepage';
 import MainPage from './pages/MainPage/MainPage';

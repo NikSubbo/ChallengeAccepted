@@ -31,7 +31,7 @@ const MainPage = (props) => {
   const handleSearch = () => {
     if (searchInput.searchField) {
       return props.challenges.filter((challenge) =>
-        challenge.hashtags.includes(
+        challenge.hashtags.join().toLowerCase().includes(
           String(searchInput.searchField.toLowerCase())
         )
       );

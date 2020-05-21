@@ -10,10 +10,12 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
+  StylesProvider,
 } from '@material-ui/core';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { fetchChallengeUploadAC } from '../../redux/action-creator';
+import LoadingBar from '../LoadingBar/LoadingBar';
 
 const useStyles = makeStyles((theme) => ({
   divUpload: {
@@ -57,20 +59,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const UploadVideoBtn = (props) => {
   const classes = useStyles();
   const [openUploader, setOpenUploader] = useState(false);
   const [video, setVideo] = useState(null);
-  const [userInput, setUserInput] = useState(
-    { title: '', description: '', hashtags: '' },
-  );
+  const [userInput, setUserInput] = useState({
+    title: '',
+    description: '',
+    hashtags: '',
+  });
 
   const changeInputHandler = (e) => {
     const { name, value } = e.target;
     setUserInput({
       ...userInput,
       [name]: value,
-    })
+    });
   };
 
   const handleUploaderOpen = () => {
@@ -89,7 +94,9 @@ const UploadVideoBtn = (props) => {
     const { original } = props;
     const userId = props.state.user._id;
     let title = '';
-    props.btnName === "Upload challenge" ? (title = userInput.title) : (title = `Answer to ${props.challengeTitle}`);
+    props.btnName === 'Upload challenge'
+      ? (title = userInput.title)
+      : (title = `Answer to ${props.challengeTitle}`);
     const description = userInput.description;
     const hashtags = userInput.hashtags;
     const vid = video[0];
@@ -104,10 +111,11 @@ const UploadVideoBtn = (props) => {
       onClose={handleUploaderClose}
       aria-labelledby="form-dialog-title"
     >
+      
       <DialogTitle>{props.formTitle}</DialogTitle>
       <DialogContent>
         <DialogContentText>{props.formDescription}</DialogContentText>
-        {props.btnName === "Upload challenge" ?
+        {props.btnName === 'Upload challenge' ? (
           <TextField
             autoFocus
             margin="dense"
@@ -119,7 +127,7 @@ const UploadVideoBtn = (props) => {
             required
             onChange={changeInputHandler}
           />
-          :
+        ) : (
           <TextField
             margin="dense"
             label="Challenge title"
@@ -130,7 +138,7 @@ const UploadVideoBtn = (props) => {
             defaultValue={props.challengeTitle}
             disabled
           />
-        }
+        )}
         <TextField
           margin="dense"
           label="Desciption"
@@ -151,8 +159,13 @@ const UploadVideoBtn = (props) => {
           fullWidth
         />
       </DialogContent>
-      <DropzoneArea onChange={handleUploading} maxFileSize={15000000} />
+      <DropzoneArea onChange={handleUploading} maxFileSize={15000000}  />
       <DialogActions>
+      {
+        props.state.loading
+          ? <LoadingBar className={classes.loader}/>
+          : null
+      }
         <Button onClick={handleUploaderClose} className={classes.btnCancel}>
           Cancel
         </Button>
@@ -171,14 +184,16 @@ const UploadVideoBtn = (props) => {
         className={classes.btnUpload}
         onClick={handleUploaderOpen}
       >
-        <Typography className={classes.btnUploadName}>{props.btnName}</Typography>
+        <Typography className={classes.btnUploadName}>
+          {props.btnName}
+        </Typography>
       </Button>
       {renderUploader}
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state) => ({ state });
+const mapStateToProps = (state) => ( { state } );
 const mapDispatchToProps = (dispatch) => ({
   fetchChallengeUpload: (userId, title, description, hashtags, data, handleUploaderClose, original) => dispatch(fetchChallengeUploadAC(userId, title, description, hashtags, data, handleUploaderClose, original))
 });

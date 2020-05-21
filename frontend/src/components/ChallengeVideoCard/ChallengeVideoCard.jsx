@@ -51,9 +51,13 @@ const ChallengeCard = (props) => {
   const classes = useStyles();
 
   const handleLike = () => {
-    const userId = props.state.user._id;
-    const challengeId = props.challenge._id;
-    props.fetchLike(userId, challengeId);
+    if (!props.state.user.name) {
+      return;
+    } else {
+      const userId = props.state.user._id;
+      const challengeId = props.challenge._id;
+      props.fetchLike(userId, challengeId);
+    }
   }
 
   return (

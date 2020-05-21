@@ -1,10 +1,11 @@
-import { ADD_USER, ADD_CHALLENGE, LOGOUT, ADD_LIKE } from './action';
+import { ADD_USER, ADD_CHALLENGE, LOGOUT, ADD_COMMENT, ADD_LIKE, LOADING, ADD_FOLLOWING } from './action';
 
 const initialState = {
   user: {
     name: '',
     email: '',
     avatar: '',
+    about: '',
     googleId: '',
     facebookId: '',
     followers: [],
@@ -12,6 +13,8 @@ const initialState = {
     challenges: [],
   },
     challenges: [],
+    comments: [],
+    loading: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -20,7 +23,7 @@ export const reducer = (state = initialState, action) => {
       return { ...state, user: action.newUser }
 
     case ADD_CHALLENGE:
-      return { ...state, challenges: [...state.challenges, action.newChallenge] }
+      return { ...state, challenges: [...state.challenges, action.newChallenge], loading: false }
 
     case ADD_LIKE:
       let updatedChallenges = state.challenges;
@@ -34,9 +37,18 @@ export const reducer = (state = initialState, action) => {
       }
       updatedChallenges.splice(index, 1, challenge);
       return { ...state,  challenges: updatedChallenges }
+    
+    case ADD_COMMENT:
+      return { ...state, comments: [...state.comments, action.newComment] }
+
+    case ADD_FOLLOWING:
+      return { ...state, ['user.following']: [...state.user.following, action.newFollowing] }
 
     case LOGOUT:
       return { ...state, user: action.newUser }
+
+    case LOADING:
+      return { ...state, loading: true}
 
     default:
       return { ...state }
