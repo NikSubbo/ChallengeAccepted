@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 const UploadVideoBtn = (props) => {
-  console.log(props);
+  
   const classes = useStyles();
   const [openUploader, setOpenUploader] = useState(false);
   const [video, setVideo] = useState(null);
