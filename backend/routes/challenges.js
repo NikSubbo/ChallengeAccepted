@@ -16,7 +16,6 @@ router.post('/uploadVideo', parser.single('file'), async (req, res, next) => {
   try {
     const video = {};
     video.url = req.file.url;
-    // video.id = req.file.public_id;
     res.send({ videoUrl: video.url });
   } catch (error) {
     next(error);

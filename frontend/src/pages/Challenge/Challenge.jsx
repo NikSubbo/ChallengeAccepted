@@ -6,6 +6,7 @@ import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
 import Player from '../../components/Player/Player';
 import { connect } from 'react-redux';
+import UploadVideoBtn from '../../components/UploadVideoBtn/UploadVideoBtn';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = (props) => {
   const classes = useStyles();
-  
-console.log(props.state.challenges)
+
   return (
     <Fragment>
       <NavBarIn />
@@ -44,7 +44,7 @@ console.log(props.state.challenges)
                 <Typography color="primary" variant="h3" component="h3" align="center">Bottle Cup Challenge</Typography>
                 <Divider />
                 <Box height="auto" className={classes.box}>
-                  <Player url={props.state.challenges[0].url} />
+                  {/* <Player url={props.state.challenges[0].url} /> */}
                 </Box>
               </Paper>
               <CardHeader
@@ -54,8 +54,14 @@ console.log(props.state.challenges)
               />
               <Paper className={classes.paper}>
                 <Typography align="justify">Bottle Cup ChallengeA video with Jason Stathem - a very cool men. Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :)  . Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :)
-              .Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :) . Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :) </Typography></Paper>
+              .Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :) . Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :) </Typography>
+              </Paper>
               <Divider />
+              <UploadVideoBtn
+                btnName={"Answer Challenge"}
+                formTitle={"Upload answer to the Challenge"}
+                formDescription={"Can you do better? If yes, load your video and show, how it should be!"}
+              />
               <Comments />
             </Grid>
           </Grid>

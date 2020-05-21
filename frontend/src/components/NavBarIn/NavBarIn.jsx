@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,28 +11,19 @@ import {
   MenuItem,
   Menu,
   Avatar,
-  Button,
   Drawer,
   List,
   ListItemText,
   Divider,
   ListItem,
   ListItemAvatar,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  TextField,
 } from '@material-ui/core';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import SearchIcon from '@material-ui/icons/Search';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import avatarImage from '../../assets/van-damme.jpg';
 import logoImage from '../../assets/logo.png';
-import { DropzoneArea } from 'material-ui-dropzone';
-import { addUserAC, addChallengeAC, fetchLogOutAC } from '../../redux/action-creator';
-
+import { fetchLogOutAC } from '../../redux/action-creator';
+import UploadVideoBtn from '../../components/UploadVideoBtn/UploadVideoBtn';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -55,45 +46,6 @@ const useStyles = makeStyles((theme) => ({
     top: '65%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-  },
-  divUpload: {
-    flexGrow: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.down(469)]: {
-      marginRight: 0,
-    },
-  },
-  btnUpload: {
-    fontSize: '1rem',
-    fontWeight: '700',
-    backgroundColor: '#FAA916',
-    color: '#FBFFFE',
-    '&:hover': {
-      backgroundColor: '#96031A',
-      color: '#FAA916',
-    },
-  },
-  btnUploadName: {
-    [theme.breakpoints.down(469)]: {
-      display: 'none',
-    },
-  },
-  divUploadIcon: {
-    [theme.breakpoints.down(469)]: {
-      marginLeft: '10px',
-    },
-  },
-  btnCancel: {
-    fontSize: '1rem',
-    fontWeight: '700',
-    backgroundColor: '#6D676E',
-    color: '#FBFFFE',
-    '&:hover': {
-      backgroundColor: '#96031A',
-      color: '#FBFFFE',
-    },
   },
   search: {
     position: 'relative',
@@ -146,21 +98,8 @@ const useStyles = makeStyles((theme) => ({
 
 const PrimarySearchAppBar = (props) => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
-  const [openUploader, setOpenUploader] = React.useState(false);
-  const [video, setVideo] = React.useState(null);
-  const [userInput, setUserInput] = React.useState(
-    { title: '', description: '', hashtags: '' },
-  );
-
-  const changeInputHandler = (e) => {
-    const { name, value } = e.target;
-    setUserInput({
-      ...userInput,
-      [name]: value,
-    })
-  };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -176,103 +115,9 @@ const PrimarySearchAppBar = (props) => {
     setOpenDrawer(false);
   };
 
-  const handleUploaderOpen = () => {
-    setOpenUploader(true);
-  };
-  const handleUploaderClose = () => {
-    setOpenUploader(false);
-    setVideo(null);
-  };
-
-  const handleUploading = (file) => {
-    setVideo(file);
-  };
-
   const handleLogout = () => {
     props.fetchLogout();
   }
-  
-  const handleUploaderSubmit = () => {
-    const userId = props.state.user._id;
-    const title = userInput.title;
-    const description = userInput.description;
-    const hashtags = userInput.hashtags;
-    const vid = video[0];
-    const data = new FormData();
-    data.append('file', vid);
-    const response = fetch(`/challenges/uploadVideo`, {
-      method: 'POST',
-      body: data
-    })
-      .then(res => res.json())
-      .then(videoUrl => fetch(`/challenges/createChallenge`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ videoUrl: videoUrl.videoUrl, userId, title, description, hashtags })
-      }))
-      .then(res => res.json())
-      .then(result => {
-        props.updateUser(result.updatedUser);
-        props.updateChallenges(result.challenge);
-        handleUploaderClose();
-      })
-      .catch(err => console.log(err))
-  };
-
-  const renderUploader = (
-    <Dialog
-      open={openUploader}
-      onClose={handleUploaderClose}
-      aria-labelledby="form-dialog-title"
-    >
-      <DialogTitle>Upload Challenge</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To upload your Challenge, please enter its title, description and
-          attach video file. Thank You!
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Challenge title"
-          type="text"
-          fullWidth
-          id="title"
-          name="title"
-          required
-          onChange={changeInputHandler}
-        />
-        <TextField
-          margin="dense"
-          label="Challenge desciption"
-          type="text"
-          id="description"
-          name="description"
-          fullWidth
-          required
-          onChange={changeInputHandler}
-        />
-        <TextField
-          margin="dense"
-          label="Hashtags"
-          type="text"
-          id="hashtags"
-          name="hashtags"
-          onChange={changeInputHandler}
-          fullWidth
-        />
-      </DialogContent>
-      <DropzoneArea onChange={handleUploading} maxFileSize={15000000} />
-      <DialogActions>
-        <Button onClick={handleUploaderClose} className={classes.btnCancel}>
-          Cancel
-        </Button>
-        <Button onClick={handleUploaderSubmit} className={classes.btnUpload}>
-          Submit
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
 
   const renderMenu = (
     <Menu
@@ -360,19 +205,11 @@ const PrimarySearchAppBar = (props) => {
             </Link>
           </div>
 
-          <div className={classes.divUpload}>
-            <Button
-              variant="contained"
-              startIcon={<CloudUploadIcon className={classes.divUploadIcon} />}
-              className={classes.btnUpload}
-              onClick={handleUploaderOpen}
-            >
-              <Typography className={classes.btnUploadName}>
-                Upload Challenge
-              </Typography>
-            </Button>
-            {renderUploader}
-          </div>
+          <UploadVideoBtn
+            btnName={"Upload challenge"}
+            formTitle={"Upload Challenge"}
+            formDescription={"To upload your Challenge, please enter its title, description and attach video file. Thank You!"}
+          />
 
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -405,8 +242,6 @@ const PrimarySearchAppBar = (props) => {
 
 const mapStateToProps = (state) => ({ state });
 const mapDispatchToProps = (dispatch) => ({
-  updateUser: (user) => dispatch(addUserAC(user)),
-  updateChallenges: (challenge) => dispatch(addChallengeAC(challenge)),
   fetchLogout: () => dispatch(fetchLogOutAC())
 });
 
