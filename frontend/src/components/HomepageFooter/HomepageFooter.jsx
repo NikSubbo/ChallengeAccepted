@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './HomepageFooter.module.css';
 import owlLogo from '../../assets/owl_logo.png';
-import mailLogo from '../../assets/mailSolid.svg';
 import githubLogo from '../../assets/github.svg';
+import HomepageModal from '../HomepageModal/HomepageModal';
 
 const HomepageFooter = () => {
   return (
@@ -17,16 +17,14 @@ const HomepageFooter = () => {
       <div className={styles.footerContact}>
         <p>Contact Us</p>
         <div className={styles.footerContactContainer}>
+            <a target="_blank" href="https://github.com/NikSubbo/ChallengeAccepted">
             <img
               className={styles.footerSocial}
               src={githubLogo}
               alt="github-logo"
             />
-          <img
-            className={styles.footerSocial}
-            src={mailLogo}
-            alt="email-logo"
-          />
+            </a>
+            <HomepageModal />
         </div>
       </div>
       <div className={styles.footerRights}>

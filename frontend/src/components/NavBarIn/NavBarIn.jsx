@@ -151,7 +151,7 @@ const PrimarySearchAppBar = (props) => {
   const [openUploader, setOpenUploader] = React.useState(false);
   const [video, setVideo] = React.useState(null);
   const [userInput, setUserInput] = React.useState(
-    { title: '', description: '', hashtags: '' },
+    { title: '', description: '', hashtags: '', required: true },
   );
 
   const changeInputHandler = (e) => {
