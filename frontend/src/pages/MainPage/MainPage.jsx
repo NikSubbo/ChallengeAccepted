@@ -52,7 +52,7 @@ const MainPage = (props) => {
     if (!props.challenges.length) {
       fetchDataChallenges();
     }
-    if (!props.user) {
+    if (!props.user.name) {
       fetchData();
     }
   }, []);

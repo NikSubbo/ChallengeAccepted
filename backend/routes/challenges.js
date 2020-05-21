@@ -2,6 +2,7 @@ const { Challenge, ChallengeO } = require('../models/challenges');
 const { User } = require('../models/users')
 const router = require('express').Router();
 const parser = require('../middleware/video-upload');
+const moment = require('moment');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -35,8 +36,8 @@ router.post('/createChallenge', async (req, res, next) => {
       description: description,
       hashtags: hashtag,
       url: videoUrl,
-      likes: 0,
-      date: new Date(),
+      likes: [],
+      date: moment(new Date()).format('LL'),
       user: user,
       answers: [],
     });

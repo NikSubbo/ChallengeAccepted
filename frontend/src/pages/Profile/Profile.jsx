@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Box, Typography, Grid, Avatar, Paper, Container, Button } from '@material-ui/core';
 import ProfileTabs from '../../components/ProfileTabs/ProfileTabs';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
-import { addUserAC } from '../../redux/action-creator';
+import { addUserAC, fetchUserAC, fetchChallengesAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +30,23 @@ const useStyles = makeStyles((theme) => ({
 
 function Profile(props) {
   const classes = useStyles();
+
+  // const fetchData = async () => {
+  //   await props.fetchUser();
+  // };
+
+  // const fetchDataChallenges = async () => {
+  //   await props.fetchChallenges();
+  // };
+
+  // useEffect(() => {
+  //   if (!props.challenges) {
+  //     fetchDataChallenges();
+  //   }
+  //   if (!props.user) {
+  //     fetchData();
+  //   }
+  // }, []);
 
   const handleImgUploading = (e) => {
     const img = e.target.files[0];
@@ -77,8 +94,8 @@ function Profile(props) {
                 </Grid>
                 <Grid item xs={6} sm={12} md={6} lg={6} xl={6}>
                   <Box mx="auto" my="10px">
-                    <Typography variant="subtitle1" >Followers: </Typography><Typography variant="h5" >10 </Typography>
-                    <Typography variant="subtitle1" >Following: </Typography><Typography variant="h5" >165 </Typography>
+                    <Typography variant="subtitle1" >Followers: </Typography><Typography variant="h5" >{props.user.followers.length || 0}</Typography>
+                    <Typography variant="subtitle1" >Following: </Typography><Typography variant="h5" >{props.user.following.length || 0} </Typography>
                   </Box>
                 </Grid>
               </Grid>
@@ -86,8 +103,8 @@ function Profile(props) {
           </Grid>
           <Grid item xs={12} sm={7} md={7} lg={8} xl={8}>
             <Paper className={classes.paper}>
-              <Typography variant="h3" color="primary">Jean-Claude Van Damme</Typography>
-              <Typography variant="h5" >van-damm@gmail.com</Typography>
+              <Typography variant="h3" color="primary">{props.user.name}</Typography>
+              <Typography variant="h5" >{props.user.email || null}</Typography>
               <Typography variant="body1" component="span" >Свою первую полноценную роль Ван Дамм получил в фильме «Не отступать и не сдаваться» (1986), сыграв русского бойца Ивана Крашинского. Из-за трудности при произношении имени, Жан-Клод Ван Варенберг сменил имя на Жан-Клод Ван Дамм, в память об умершем друге.</Typography>
             </Paper>
           </Grid>
@@ -103,6 +120,10 @@ function Profile(props) {
 }
 
 const mapStateToProps = (state) => ({ state });
-const mapDispatchToProps = (dispatch) => ({ updateUser: (user) => dispatch(addUserAC(user)) });
+const mapDispatchToProps = (dispatch) => ({ 
+  updateUser: (user) => dispatch(addUserAC(user)),
+  fetchUser: (user) => dispatch(fetchUserAC(user)),
+  fetchChallenges: () => dispatch(fetchChallengesAC()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

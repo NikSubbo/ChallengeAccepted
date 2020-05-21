@@ -1,8 +1,17 @@
 import { ADD_USER, ADD_CHALLENGE, LOGOUT } from './action';
 
 const initialState = {
-  user: '',
-  challenges: [],
+  user: {
+    name: '',
+    email: '',
+    avatar: '',
+    googleId: '',
+    facebookId: '',
+    followers: [],
+    following: [],
+    challenges: [],
+  },
+    challenges: [],
 }
 
 export const reducer = (state = initialState, action) => {

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Avatar, Box, CardHeader, Grid, Divider, Paper, Typography, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Comments from '../../components/Comments/Comments';
@@ -6,6 +6,7 @@ import AnswerCard from '../../components/AnswerCard/AnswerCard';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
 import Player from '../../components/Player/Player';
 import { connect } from 'react-redux';
+import { fetchUserAC, fetchChallengesAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,8 +32,26 @@ const useStyles = makeStyles((theme) => ({
 
 const Challenge = (props) => {
   const classes = useStyles();
+
+  const fetchData = async () => {
+    await props.fetchUser();
+  };
+
+  const fetchDataChallenges = async () => {
+    await props.fetchChallenges();
+  };
+
+  useEffect(() => {
+    if (!props.state.challenges.length) {
+      fetchDataChallenges();
+    }
+    if (!props.user) {
+      fetchData();
+    }
+  }, []);
+
+  const challenge = props.state.challenges.find((challenge) => challenge._id === props.match.params.id)
   
-console.log(props.state.challenges)
   return (
     <Fragment>
       <NavBarIn />
@@ -41,22 +60,21 @@ console.log(props.state.challenges)
           <Grid item xs={11} sm={11} md={6} lg={6} xl={6}>
             <Grid container direction="column" spacing={0}>
               <Paper className={classes.paper}>
-                <Typography color="primary" variant="h3" component="h3" align="center">Bottle Cup Challenge</Typography>
+                <Typography color="primary" variant="h3" component="h3" align="center">{challenge.title}</Typography>
                 <Divider />
                 <Box height="auto" className={classes.box}>
-                  <Player url={props.state.challenges[0].url} />
+                  <Player url={challenge.url} />
                 </Box>
               </Paper>
               <CardHeader
-                avatar={<Avatar alt="Van Damme" src={require("../../assets/van-damme.jpg")} aria-label="recipe" />}
-                title=" Jean-Claude Van Damme"
-                subheader="September 14, 2016"
+                avatar={<Avatar alt="avatar" src={challenge.user.avatar} aria-label="recipe" />}
+                title={challenge.user.name}
+                subheader={challenge.date}
               />
               <Paper className={classes.paper}>
-                <Typography align="justify">Bottle Cup ChallengeA video with Jason Stathem - a very cool men. Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :)  . Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :)
-              .Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :) . Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :) </Typography></Paper>
+                <Typography align="justify">{challenge.description}</Typography></Paper>
               <Divider />
-              <Comments />
+              <Comments challenge={challenge} user={props.state.user} />
             </Grid>
           </Grid>
           <Grid item xs={11} sm={11} md={3} lg={3} xl={3} autoWidth={false}>
@@ -71,5 +89,9 @@ console.log(props.state.challenges)
 }
 
 const mapStateToProps = (state) => ({ state });
+const mapDispatchToProps = (dispatch) => ({
+  fetchUser: (user) => dispatch(fetchUserAC(user)),
+  fetchChallenges: () => dispatch(fetchChallengesAC()),
+});
 
-export default connect(mapStateToProps)(Challenge);
+export default connect(mapStateToProps, mapDispatchToProps)(Challenge);
