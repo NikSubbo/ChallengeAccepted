@@ -99,7 +99,7 @@ export const fetchChallengesAC = () => {
   };
 };
 
-export const fetchChallengeUploadAC = (userId, title, description, hashtags, data, handleUploaderClose) => {
+export const fetchChallengeUploadAC = (userId, title, description, hashtags, data, handleUploaderClose, original) => {
   return (dispatch) => {
     fetch(`/challenges/uploadVideo`, {
       method: 'POST',
@@ -109,7 +109,7 @@ export const fetchChallengeUploadAC = (userId, title, description, hashtags, dat
       .then(videoUrl => fetch(`/challenges/createChallenge`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ videoUrl: videoUrl.videoUrl, userId, title, description, hashtags })
+        body: JSON.stringify({ videoUrl: videoUrl.videoUrl, userId, title, description, hashtags, original })
       }))
       .then(res => res.json())
       .then(result => {

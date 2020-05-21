@@ -76,6 +76,7 @@ const Challenge = (props) => {
                 <Typography align="justify">{challenge.description}</Typography></Paper>
               <Divider />
               <UploadVideoBtn
+                original={false}
                 btnName={"Answer Challenge"}
                 formTitle={"Upload answer to the Challenge"}
                 formDescription={"Can you do better? If yes, load your video and show, how it should be!"}

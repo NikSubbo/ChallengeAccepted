@@ -87,6 +87,7 @@ const UploadVideoBtn = (props) => {
   };
 
   const handleUploaderSubmit = () => {
+    const { original } = props;
     const userId = props.state.user._id;
     let title = '';
     props.btnName === "Upload challenge" ? (title = userInput.title) : (title = `Answer to ${props.challengeTitle}`);
@@ -95,7 +96,7 @@ const UploadVideoBtn = (props) => {
     const vid = video[0];
     const data = new FormData();
     data.append('file', vid);
-    props.fetchChallengeUpload(userId, title, description, hashtags, data, handleUploaderClose);
+    props.fetchChallengeUpload(userId, title, description, hashtags, data, handleUploaderClose, original);
   };
 
   const renderUploader = (
@@ -180,7 +181,7 @@ const UploadVideoBtn = (props) => {
 
 const mapStateToProps = (state) => ({ state });
 const mapDispatchToProps = (dispatch) => ({
-  fetchChallengeUpload: (userId, title, description, hashtags, data, handleUploaderClose) => dispatch(fetchChallengeUploadAC(userId, title, description, hashtags, data, handleUploaderClose))
+  fetchChallengeUpload: (userId, title, description, hashtags, data, handleUploaderClose, original) => dispatch(fetchChallengeUploadAC(userId, title, description, hashtags, data, handleUploaderClose, original))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UploadVideoBtn);

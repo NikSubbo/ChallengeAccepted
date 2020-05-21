@@ -9,10 +9,7 @@ const challengeSchema = new mongoose.Schema({
   likes: Array,
   date: String,
   user: userSchema,
-  answers: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-  }]
+  original: Boolean,
 });
 
 const Challenge = mongoose.model('Challenge', challengeSchema);

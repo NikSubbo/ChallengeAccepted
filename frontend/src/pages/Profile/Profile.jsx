@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Box, Typography, Grid, Avatar, Paper, Container, Button } from '@material-ui/core';
 import ProfileTabs from '../../components/ProfileTabs/ProfileTabs';
 import NavBarIn from '../../components/NavBarIn/NavBarIn';
-import { addUserAC, fetchUserAC, fetchChallengesAC } from '../../redux/action-creator';
+import { addUserAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,22 +31,9 @@ const useStyles = makeStyles((theme) => ({
 function Profile(props) {
   const classes = useStyles();
 
-  // const fetchData = async () => {
-  //   await props.fetchUser();
-  // };
-
-  // const fetchDataChallenges = async () => {
-  //   await props.fetchChallenges();
-  // };
-
-  // useEffect(() => {
-  //   if (!props.challenges) {
-  //     fetchDataChallenges();
-  //   }
-  //   if (!props.user) {
-  //     fetchData();
-  //   }
-  // }, []);
+  const myChallenges = props.state.challenges.filter((challenge) => challenge.user._id === props.state.user._id && challenge.original);
+  const myLikes = props.state.challenges.filter((challenge) => challenge.likes.includes(props.state.user._id));
+  const myAnswers = props.state.challenges.filter((challenge) => challenge.user._id === props.state.user._id && (challenge.original === false));
 
   const handleImgUploading = (e) => {
     const img = e.target.files[0];
@@ -103,14 +90,14 @@ function Profile(props) {
           </Grid>
           <Grid item xs={12} sm={7} md={7} lg={8} xl={8}>
             <Paper className={classes.paper}>
-              <Typography variant="h3" color="primary">{props.user.name}</Typography>
+              <Typography variant="h3" color="primary">{props.user.name || null}</Typography>
               <Typography variant="h5" >{props.user.email || null}</Typography>
               <Typography variant="body1" component="span" >Свою первую полноценную роль Ван Дамм получил в фильме «Не отступать и не сдаваться» (1986), сыграв русского бойца Ивана Крашинского. Из-за трудности при произношении имени, Жан-Клод Ван Варенберг сменил имя на Жан-Клод Ван Дамм, в память об умершем друге.</Typography>
             </Paper>
           </Grid>
           <Grid item xs={12}>
             <Paper className={classes.root}>
-              <ProfileTabs />
+              <ProfileTabs myChallenges={myChallenges} myLikes={myLikes} myAnswers={myAnswers} />
             </Paper>
           </Grid>
         </Grid>
@@ -122,8 +109,6 @@ function Profile(props) {
 const mapStateToProps = (state) => ({ state });
 const mapDispatchToProps = (dispatch) => ({ 
   updateUser: (user) => dispatch(addUserAC(user)),
-  fetchUser: (user) => dispatch(fetchUserAC(user)),
-  fetchChallenges: () => dispatch(fetchChallengesAC()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
