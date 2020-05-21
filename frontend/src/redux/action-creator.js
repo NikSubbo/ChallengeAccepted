@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE, LOADING } from './action';
+import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE, LOADING, ADD_FOLLOWING } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -19,6 +19,11 @@ export const addLikeAC = (userId, challengeId) => ({
   type: ADD_LIKE,
   newLike: userId,
   challenge: challengeId,
+});
+
+export const addFollowingAC = (followingId) => ({
+  type: ADD_FOLLOWING,
+  newFollowing: followingId,
 });
 
 export const loadingAC = () => ({
@@ -141,6 +146,24 @@ export const fetchLikeAC = (userId, challengeId) => {
     });
     if (response.ok) {
       dispatch(addLikeAC(userId, challengeId));
+    }
+  }
+}
+
+export const fetchFollowingAC = (userId, followingId) => {
+  return async (dispatch) => {
+    const response = await fetch('/profile/subscribe', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: userId,
+        followingId: followingId,
+      }),
+    });
+    if (response.ok) {
+      dispatch(addFollowingAC(followingId));
     }
   }
 }
