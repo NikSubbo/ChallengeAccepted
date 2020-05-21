@@ -6,8 +6,8 @@ const challengeSchema = new mongoose.Schema({
   description: String,
   hashtags: Array,
   url: String,
-  likes: Number,
-  date: Date,
+  likes: Array,
+  date: String,
   user: userSchema,
   answers: [{
     type: mongoose.Schema.Types.ObjectId,

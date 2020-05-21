@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
   },
   like: {
     color: '#96031A'
+  },
+  hashtags: {
+    marginTop: theme.spacing(1),
+    color: 'blue',
   }
 }));
 
@@ -28,16 +32,26 @@ const ChallengeCard = (props) => {
   return (
     <Card className={classes.root}>
       <CardHeader
-        avatar={<Avatar alt="Van Damme" src={require("../../assets/van-damme.jpg")} aria-label="recipe" />}
-        title="Jean-Claude Van Damme"
-        subheader="September 14, 2016"
+        avatar={<Avatar alt="avatar" src={props.challenge.user.avatar} aria-label="recipe" />}
+        title={props.challenge.user.name}
+        subheader={props.challenge.date}
       />
       <CardMedia className={classes.media}>
         <Player url={props.challenge.url} />
       </CardMedia>
       <CardContent>
+        <Typography variant="h6" color="textSecondary" component="p">
+          {props.challenge.title}
+        </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          Jason Stathem is Very Cool, but Jean-Claude Van Damme is Jean-Claude Van Damme! :)
+          {props.challenge.description}
+        </Typography>
+        <Typography className={classes.hashtags} variant="body2" color="textSecondary" component="p">
+          {
+            props.challenge.hashtags
+              ? props.challenge.hashtags.join().replace(/[,]/g, ' ')
+              : null
+          }
         </Typography>
       </CardContent>
       <Box mx='50px'><CardActions>
@@ -45,9 +59,9 @@ const ChallengeCard = (props) => {
         <IconButton aria-label="add to favorites">
           <FavoriteIcon className={classes.like} />
         </IconButton>
-        <Typography variant="body2" color="textSecondary" component="p">1256</Typography>
+        <Typography variant="body2" color="textSecondary" component="p">{props.challenge.likes.length}</Typography>
 
-        <Button size="small"><Link className={classes.profileLink} to="/challenge">Open Challenge</Link></Button>
+        <Button size="small"><Link className={classes.profileLink} to={`/challenge/${props.challenge._id}`}>Open Challenge</Link></Button>
 
       </CardActions>
       </Box>

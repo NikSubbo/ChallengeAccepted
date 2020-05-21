@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const UploadVideoBtn = (props) => {
+  console.log(props)
   const classes = useStyles();
   const [openUploader, setOpenUploader] = useState(false);
   const [video, setVideo] = useState(null);
@@ -87,7 +88,8 @@ const UploadVideoBtn = (props) => {
 
   const handleUploaderSubmit = () => {
     const userId = props.state.user._id;
-    const title = userInput.title;
+    let title = '';
+    props.btnName === "Upload challenge" ? (title = userInput.title) : (title = `Answer to ${props.challengeTitle}`);
     const description = userInput.description;
     const hashtags = userInput.hashtags;
     const vid = video[0];
@@ -95,32 +97,6 @@ const UploadVideoBtn = (props) => {
     data.append('file', vid);
     props.fetchChallengeUpload(userId, title, description, hashtags, data, handleUploaderClose);
   };
-
-  const challengeInfo = (
-    <>
-      <TextField
-        autoFocus
-        margin="dense"
-        label="Challenge title"
-        type="text"
-        fullWidth
-        id="title"
-        name="title"
-        required
-        onChange={changeInputHandler}
-      />
-      <TextField
-        margin="dense"
-        label="Challenge desciption"
-        type="text"
-        id="description"
-        name="description"
-        fullWidth
-        required
-        onChange={changeInputHandler}
-      />
-    </>
-  )
 
   const renderUploader = (
     <Dialog
@@ -131,7 +107,40 @@ const UploadVideoBtn = (props) => {
       <DialogTitle>{props.formTitle}</DialogTitle>
       <DialogContent>
         <DialogContentText>{props.formDescription}</DialogContentText>
-        {props.btnName == "Upload challenge" ? challengeInfo : null}
+        {props.btnName === "Upload challenge" ?
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Challenge title"
+            type="text"
+            fullWidth
+            id="title"
+            name="title"
+            required
+            onChange={changeInputHandler}
+          />
+          :
+          <TextField
+            margin="dense"
+            label="Challenge title"
+            type="text"
+            fullWidth
+            id="title"
+            name="title"
+            defaultValue={props.challengeTitle}
+            disabled
+          />
+        }
+        <TextField
+          margin="dense"
+          label="Desciption"
+          type="text"
+          id="description"
+          name="description"
+          fullWidth
+          required
+          onChange={changeInputHandler}
+        />
         <TextField
           margin="dense"
           label="Hashtags"

@@ -40,7 +40,7 @@ export default function Comments() {
                 color="textPrimary"
               >
                 — I'll be in your neighborhood doing errands this…
-        </Typography>
+              </Typography>
               {" 11/05/2020 "}
             </React.Fragment>
           }

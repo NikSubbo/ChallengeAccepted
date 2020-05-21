@@ -24,7 +24,7 @@ export class App extends Component {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/profile" component={requireAuth(Profile)} />
-          <Route exact path="/challenge" component={Challenge} />
+          <Route exact path="/challenge/:id" component={Challenge} />
         </Switch>
       </Fragment>
     );
