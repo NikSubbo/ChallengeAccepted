@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
   left: {
     textAlign: 'left',
   },
+  title: {
+    color: '#6D676E',
+    marginBottom: theme.spacing(2)
+  },
   hashtags: {
     marginTop: theme.spacing(1),
     color: 'blue',
@@ -84,7 +88,8 @@ const Challenge = (props) => {
             <Grid container direction="column" spacing={3}>
               <Box width={1} height="auto" className={classes.box}>
                 <Paper className={classes.paper}>
-                  <Typography color="textSecondary" variant="h4" component="h4" align="left">{challenge.title}</Typography>
+                <Typography variant="h4" align="center" className={classes.title}>{challenge.title}</Typography>
+                <Divider />
                   <Player url={challenge.url} />
                   <Grid container justify="left" spacing={1}>
                     <Grid item xs={9} sm={9} md={9} lg={9} xl={9}>
@@ -139,7 +144,7 @@ const Challenge = (props) => {
           </Grid>
           <Grid item xs={12} sm={9} md={3} lg={3} xl={3}>
             <Paper style={{ overflow: 'auto' }}>
-              <AnswerCard />
+              <AnswerCard challenge={challenge}/>
             </Paper>
           </Grid>
         </Grid>

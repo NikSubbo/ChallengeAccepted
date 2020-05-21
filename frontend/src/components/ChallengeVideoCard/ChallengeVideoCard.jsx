@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography, IconButton } from '@material-ui/core/';
+import { Avatar, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Typography, IconButton, Divider, Paper } from '@material-ui/core/';
 import Player from '../Player/Player';
 import { connect } from 'react-redux';
 import { fetchLikeAC } from '../../redux/action-creator';
@@ -12,8 +12,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 500,
   },
   media: {
-    // height: 0,
-    // paddingTop: '100%', // '56.25%' - 16:9
+    objectFit: 'cover'
   },
   profileLink: {
     textDecoration: 'none'
@@ -24,6 +23,27 @@ const useStyles = makeStyles((theme) => ({
   hashtags: {
     marginTop: theme.spacing(1),
     color: 'blue',
+  },
+  cardActions: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+  cardBtn: {
+    backgroundColor: '#FAA916',
+    '&:hover': {
+      backgroundColor: '#96031A',
+    },
+  },
+  cardBtnLink: {
+    textDecoration: 'none',
+    color: '#FBFFFE',
+    '&:hover': {
+      color: '#FAA916',
+    }
+  },
+  likesBox: {
+    display: 'flex',
+    alignItems: 'center'
   }
 }));
 
@@ -52,7 +72,7 @@ const ChallengeCard = (props) => {
       </CardMedia>
       <CardContent>
         <Typography variant="h6" color="textSecondary" component="p">
-          {props.challenge.title}
+          {props.challenge.original ? props.challenge.title : null}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
           {props.challenge.description}
@@ -65,17 +85,18 @@ const ChallengeCard = (props) => {
           }
         </Typography>
       </CardContent>
-      <Box mx='50px'><CardActions>
-
-        <IconButton onClick={handleLike} >
-          <FavoriteIcon className={classes.like} />
-        </IconButton>
-        <Typography variant="body2" color="textSecondary" component="p">{props.challenge.likes.length}</Typography>
-
-        <Button size="small"><Link className={classes.profileLink} to={`/challenge/${props.challenge._id}`}>Open Challenge</Link></Button>
-
+      <Divider light variant='middle' />
+      <CardActions className={classes.cardActions}>
+        <Box className={classes.likesBox}>
+          <IconButton aria-label="add to favorites" onClick={handleLike}>
+            <FavoriteIcon className={classes.like} />
+          </IconButton>
+          <Typography variant="body2" color="textSecondary" component="p">{props.challenge.likes.length}</Typography>
+        </Box>
+        <Paper>
+          <Button className={classes.cardBtn} size="small"><Link className={classes.cardBtnLink} to={`/challenge/${props.challenge._id}`}>Open Challenge</Link></Button>
+        </Paper>
       </CardActions>
-      </Box>
     </Card>
   );
 }

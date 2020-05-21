@@ -36,7 +36,6 @@ router.post('/uploadVideo', parser.single('file'), async (req, res, next) => {
 router.post('/createChallenge', async (req, res, next) => {
   try {
     const { userId, videoUrl, title, description, hashtags, original } = req.body;
-    console.log(req.body);
     const user = await User.findById(userId);
     let hashtag = hashtags.match(/([\w\d]*){3,}/gm);
     hashtag = hashtag.filter(el => el.length >= 3);
