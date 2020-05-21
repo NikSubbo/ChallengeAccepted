@@ -5,6 +5,7 @@ const initialState = {
     name: '',
     email: '',
     avatar: '',
+    about: '',
     googleId: '',
     facebookId: '',
     followers: [],
