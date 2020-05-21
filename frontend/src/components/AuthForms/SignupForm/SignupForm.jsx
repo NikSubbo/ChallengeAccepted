@@ -67,7 +67,7 @@ function SignupForm(props) {
   const classes = useStyles();
 
   const [userInput, setUserInput] = useState(
-    { name: '', email: '', password: '', message: '', },
+    { name: '', email: '', password: '', message: '', about: '' },
   );
 
   const clickHandler = (e) => {
@@ -87,8 +87,8 @@ function SignupForm(props) {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const { name, email, password } = userInput;
-    const result = await props.fetchSignup(name, email, password);
+    const { name, email, password, about } = userInput;
+    const result = await props.fetchSignup(name, email, password, about);
     if (result.user) {
       window.location.href = 'http://localhost:3000/main';
     } else {
@@ -168,6 +168,17 @@ function SignupForm(props) {
                 onChange={changeHandler}
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                name="about"
+                id="about"
+                label="Tell something about yourself"
+                type="text"
+                onChange={changeHandler}
+              />
+            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -225,7 +236,7 @@ function SignupForm(props) {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchSignup: (name, email, password) => dispatch(fetchSignupAC(name, email, password)),
+  fetchSignup: (name, email, password, about) => dispatch(fetchSignupAC(name, email, password, about)),
 });
 
 export default connect(null, mapDispatchToProps)(SignupForm)

@@ -37,7 +37,7 @@ export const fetchUserAC = () => {
   };
 };
 
-export const fetchSignupAC = (name, email, password) => {
+export const fetchSignupAC = (name, email, password, about) => {
   return async (dispatch) => {
     const response = await fetch('/auth/signup', {
       method: 'POST',
@@ -48,6 +48,7 @@ export const fetchSignupAC = (name, email, password) => {
         name,
         email,
         password,
+        about,
       }),
     });
     const result = await response.json();

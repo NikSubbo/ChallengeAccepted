@@ -91,8 +91,8 @@ function Profile(props) {
           <Grid item xs={12} sm={7} md={7} lg={8} xl={8}>
             <Paper className={classes.paper}>
               <Typography variant="h3" color="primary">{props.user.name || null}</Typography>
-              <Typography variant="h5" >{props.user.email || null}</Typography>
-              <Typography variant="body1" component="span" >Свою первую полноценную роль Ван Дамм получил в фильме «Не отступать и не сдаваться» (1986), сыграв русского бойца Ивана Крашинского. Из-за трудности при произношении имени, Жан-Клод Ван Варенберг сменил имя на Жан-Клод Ван Дамм, в память об умершем друге.</Typography>
+              <Typography variant="body1" component="span" >{props.user.email || null}</Typography>
+              <Typography variant="h6" >{props.user.about || 'Nothing here, yet...'}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={12}>
