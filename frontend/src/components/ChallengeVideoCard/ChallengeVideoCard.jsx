@@ -68,7 +68,7 @@ const ChallengeCard = (props) => {
         subheader={props.challenge.date}
       />
       <CardMedia className={classes.media}>
-        <Player url={props.challenge.url} />
+          <Player url={props.challenge.url} />
       </CardMedia>
       <CardContent>
         <Typography variant="h6" color="textSecondary" component="p">
