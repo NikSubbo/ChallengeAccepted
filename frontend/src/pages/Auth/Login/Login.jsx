@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 const Login = (props) => {
 
-  if (props.user) {
+  if (props.user.name) {
     return <Redirect to="/main" />
   } else {
     return (

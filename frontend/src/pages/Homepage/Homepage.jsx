@@ -13,12 +13,12 @@ const Homepage = (props) => {
   }
 
   useEffect(() => {
-    if (!props.user) {
+    if (!props.user.name) {
      fetchData();
     }
   }, [])
 
-  if (props.user) {
+  if (props.user.name) {
     return <Redirect to="/main" />
   } else {
     return (

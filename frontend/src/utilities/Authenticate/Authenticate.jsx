@@ -8,7 +8,7 @@ export default function(ComposedComponent) {
   const Authenticate = (props) => {
 
     useEffect(() => {
-      if (!props.user) {
+      if (!props.user.name) {
         props.history.push('/');
       }
     }, [props.user])

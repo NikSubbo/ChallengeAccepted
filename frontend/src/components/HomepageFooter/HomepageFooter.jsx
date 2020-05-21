@@ -12,7 +12,7 @@ const HomepageFooter = () => {
           IT IS YOUR TURN
           <br />
         </p>
-        <p>TO BECOME A FAMOUS</p>
+        <p>TO BECOME FAMOUS</p>
       </div>
       <div className={styles.footerContact}>
         <p>Contact Us</p>
