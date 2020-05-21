@@ -1,4 +1,4 @@
-import { ADD_USER, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE, ADD_COMMENT } from './action';
+import { ADD_USER, ADD_COMMENT, SIGNUP, LOGIN, LOGOUT, ADD_CHALLENGE, ADD_LIKE, LOADING, ADD_FOLLOWING } from './action';
 
 export const addUserAC = (user) => ({
   type: ADD_USER,
@@ -26,6 +26,15 @@ export const addCommentAC = (comment) => ({
   newComment: comment,
 });
 
+export const addFollowingAC = (followingId) => ({
+  type: ADD_FOLLOWING,
+  newFollowing: followingId,
+});
+
+export const loadingAC = () => ({
+  type: LOADING,
+});
+
 export const fetchUserAC = () => {
   return async (dispatch) => {
     const response = await fetch('/auth/login/success', {
@@ -42,7 +51,7 @@ export const fetchUserAC = () => {
   };
 };
 
-export const fetchSignupAC = (name, email, password) => {
+export const fetchSignupAC = (name, email, password, about) => {
   return async (dispatch) => {
     const response = await fetch('/auth/signup', {
       method: 'POST',
@@ -53,6 +62,7 @@ export const fetchSignupAC = (name, email, password) => {
         name,
         email,
         password,
+        about,
       }),
     });
     const result = await response.json();
@@ -106,6 +116,7 @@ export const fetchChallengesAC = () => {
 
 export const fetchChallengeUploadAC = (userId, title, description, hashtags, data, handleUploaderClose, original) => {
   return (dispatch) => {
+    dispatch(loadingAC())
     fetch(`/challenges/uploadVideo`, {
       method: 'POST',
       body: data
@@ -159,4 +170,20 @@ export const fetchCommentsAC = () => {
   };
 };
 
-
+export const fetchFollowingAC = (userId, followingId) => {
+  return async (dispatch) => {
+    const response = await fetch('/profile/subscribe', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: userId,
+        followingId: followingId,
+      }),
+    });
+    if (response.ok) {
+      dispatch(addFollowingAC(followingId));
+    }
+  }
+}

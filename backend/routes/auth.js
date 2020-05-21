@@ -9,7 +9,7 @@ const CLIENT_HOME_PAGE_URL = 'http://localhost:3000';
 const saltRounds = 10;
 
 router.post('/signup', async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, about } = req.body;
   try {
     const userCheck = await User.findOne({ email });
     if (userCheck) {
@@ -18,6 +18,7 @@ router.post('/signup', async (req, res, next) => {
       await User.create({
         name,
         email,
+        about,
         avatar: '',
         password: await bcrypt.hash(password, saltRounds),
         followers: [],
