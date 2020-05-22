@@ -2,7 +2,8 @@ const express = require("express");
 const parser = require('../middleware/img-upload');
 
 const router = express.Router();
-const { User } = require('../models/users')
+const { User } = require('../models/users');
+const { Challenge } = require('../models/challenges');
 
 router.post('/uploadImg', parser.single('file'), async (req, res, next) => {
   try {
@@ -26,17 +27,28 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-router.put('/subscribe', async (req, res, next) => {
+router.put('/:id/subscribe', async (req, res, next) => {
   try {
-    const { _id, followingId } = req.body;
-    let updated;
+    const { _id, followingId, challengeId } = req.body;
+    let userUpdated;
+    let followerUpdated;
+    let challengeUpdated;
+    let newUser;
     const user = await User.findOne({ _id });
+
     if (user.following.includes(followingId)) {
-      updated = await User.updateOne({ _id }, { $pull: { following: followingId } });
+      userUpdated = await User.updateOne({ _id }, { $pull: { following: followingId } });
+      followerUpdated = await User.updateOne({ _id: followingId }, { $pull: { followers: _id } });
+      challengeUpdated = await Challenge.updateOne({ _id: challengeId }, { user: { $pull: { followers: _id } } } );
+      newUser = await User.findOne({ _id: followingId });
+      challengeUpdated = await Challenge.updateOne({ _id: challengeId }, { $set: { 'user': newUser } } );
     } else {
-      updated = await User.updateOne({ _id }, { $push: { following: followingId } });
+      userUpdated = await User.updateOne({ _id }, { $push: { following: followingId } });
+      followerUpdated = await User.updateOne({ _id: followingId }, { $push: { followers: _id } });
+      newUser = await User.findOne({ _id: followingId });
+      challengeUpdated = await Challenge.updateOne({ _id: challengeId }, { $set: { user: newUser } } );
     }
-    if (updated.nModified > 0) {
+    if (userUpdated.nModified > 0 && followerUpdated.nModified > 0 && challengeUpdated.nModified > 0) {
       res.sendStatus(200);
     } else {
       res.sendStatus(500);
