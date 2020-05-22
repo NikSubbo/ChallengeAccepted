@@ -53,8 +53,6 @@ const Comments = (props) => {
       })
       .catch(err => console.log(err))
   };
-
-  //console.log('PROPS.STATE.COMMNETS', props.state.comments)
   
   return (
     <List className={classes.root}>
