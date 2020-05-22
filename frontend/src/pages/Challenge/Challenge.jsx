@@ -132,31 +132,38 @@ const Challenge = (props) => {
                       />
                       
                     </Grid>
-                    <Grid item xs={7} sm={6} md={5} lg={4} xl={4}>
-                      <Box my="5px">
-                        <UploadVideoBtn
-                          original={false}
-                          btnName={"Answer Challenge"}
-                          formTitle={"Upload answer to the Challenge"}
-                          formDescription={"Can you do better? If yes, load your video and show, how it should be!"}
-                          challengeTitle={challenge.title}
-                        />
-                      </Box>
-                    </Grid>
+                      {
+                        props.state.user.name
+                          ? <Grid item xs={7} sm={6} md={5} lg={4} xl={4}>
+                              <Box my="5px">
+                                <UploadVideoBtn
+                                  original={false}
+                                  btnName={"Answer Challenge"}
+                                  formTitle={"Upload answer to the Challenge"}
+                                  formDescription={"Can you do better? If yes, load your video and show, how it should be!"}
+                                  challengeTitle={challenge.title}
+                                />
+                              </Box>
+                            </Grid>
+                          : null
+                      }
+                    
                   </Grid>
 
                   <Grid container direction="row" justify="flex-start" alignItems="flex-start" spacing={2}>
                     <Grid item >
                       {
-                        challenge.user._id === props.state.user._id
-                          ? null
-                          : challenge.user.followers.includes(props.state.user._id)
-                              ? <Box className={classes.left}>
-                                  <Button className={classes.button} onClick={handleFollow} >Unfollow</Button>
-                                </Box>
-                              : <Box className={classes.left}>
-                                  <Button className={classes.button} onClick={handleFollow} >Follow</Button>
-                                </Box>
+                        props.state.user.name
+                          ? challenge.user._id === props.state.user._id
+                            ? null
+                            : challenge.user.followers.includes(props.state.user._id)
+                                ? <Box className={classes.left}>
+                                    <Button className={classes.button} onClick={handleFollow} >Unfollow</Button>
+                                  </Box>
+                                : <Box className={classes.left}>
+                                    <Button className={classes.button} onClick={handleFollow} >Follow</Button>
+                                  </Box>
+                          : null
                       }
                     </Grid>
                     <Grid item >

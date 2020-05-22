@@ -20,16 +20,16 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_USER:
-      const isChallenge = state.challenges.find(el => el.user._id === action.newUser._id);
-      let challengesToUpdate = [...state.challenges];
-      if (isChallenge) {
-        challengesToUpdate.map(el => {
-          return el.user._id === action.newUser._id 
-          ? el.user.avatar = action.newUser.avatar
-          : el
-        });
-      }
-      return { ...state, user: action.newUser, challenges: challengesToUpdate }
+      // const isChallenge = state.challenges.find(el => el.user._id === action.newUser._id);
+      // let challengesToUpdate = [...state.challenges];
+      // if (isChallenge) {
+      //   challengesToUpdate.map(el => {
+      //     return el.user._id === action.newUser._id 
+      //     ? el.user.avatar = action.newUser.avatar
+      //     : el
+      //   });
+      // }
+      return { ...state, user: action.newUser }
 
     case ADD_CHALLENGE:
       return { ...state, challenges: [...state.challenges, action.newChallenge], loading: false }
