@@ -20,7 +20,16 @@ const initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_USER:
-      return { ...state, user: action.newUser }
+      const isChallenge = state.challenges.find(el => el.user._id === action.newUser._id);
+      let challengesToUpdate = [...state.challenges];
+      if (isChallenge) {
+        challengesToUpdate.map(el => {
+          return el.user._id === action.newUser._id 
+          ? el.user.avatar = action.newUser.avatar
+          : el
+        });
+      }
+      return { ...state, user: action.newUser, challenges: challengesToUpdate }
 
     case ADD_CHALLENGE:
       return { ...state, challenges: [...state.challenges, action.newChallenge], loading: false }
@@ -42,7 +51,21 @@ export const reducer = (state = initialState, action) => {
       return { ...state, comments: [...state.comments, action.newComment] }
 
     case ADD_FOLLOWING:
-      return { ...state, ['user.following']: [...state.user.following, action.newFollowing] }
+      let currUser = state.user;
+      let currChallenges = state.challenges;
+      let currChallenge = state.challenges.find(el => el._id === action.challengeId);
+      let currChallengeUpd = state.challenges.find(el => el._id === action.challengeId);
+
+      if (currUser.following.includes(action.newFollowing)) {
+        currUser.following.splice(currUser.following.indexOf(action.newFollowing), 1);
+        currChallengeUpd.user.followers.splice(currChallengeUpd.user.followers.indexOf(currUser._id), 1);
+        currChallenges.splice(currChallenges.indexOf(currChallenge), 1, currChallengeUpd);
+      } else {
+        currUser.following.push(action.newFollowing);
+        currChallengeUpd.user.followers.push(currUser._id);
+        currChallenges.splice(currChallenges.indexOf(currChallenge), 1, currChallengeUpd);
+      }
+      return { ...state,  user: currUser, challenges: currChallenges}
 
     case LOGOUT:
       return { ...state, user: action.newUser }

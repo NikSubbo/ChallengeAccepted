@@ -26,9 +26,10 @@ export const addCommentAC = (comment) => ({
   newComment: comment,
 });
 
-export const addFollowingAC = (followingId) => ({
+export const addFollowingAC = (followingId, challengeId) => ({
   type: ADD_FOLLOWING,
   newFollowing: followingId,
+  challengeId: challengeId,
 });
 
 export const loadingAC = () => ({
@@ -170,9 +171,9 @@ export const fetchCommentsAC = () => {
   };
 };
 
-export const fetchFollowingAC = (userId, followingId) => {
+export const fetchFollowingAC = (userId, followingId, challengeId) => {
   return async (dispatch) => {
-    const response = await fetch('/profile/subscribe', {
+    const response = await fetch(`/profile/${followingId}/subscribe`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -180,10 +181,11 @@ export const fetchFollowingAC = (userId, followingId) => {
       body: JSON.stringify({
         _id: userId,
         followingId: followingId,
+        challengeId: challengeId,
       }),
     });
     if (response.ok) {
-      dispatch(addFollowingAC(followingId));
+      dispatch(addFollowingAC(followingId, challengeId));
     }
   }
 }

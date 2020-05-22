@@ -8,13 +8,16 @@ import Player from '../../components/Player/Player';
 import { connect } from 'react-redux';
 import UploadVideoBtn from '../../components/UploadVideoBtn/UploadVideoBtn';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { fetchUserAC, fetchChallengesAC, fetchCommentsAC } from '../../redux/action-creator';
+import { fetchUserAC, fetchChallengesAC, fetchCommentsAC, fetchFollowingAC, fetchLikeAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
 
   container: {
     flexGrow: 1,
     marginTop: theme.spacing(3),
+  },
+  like: {
+    color: '#96031A'
   },
   paper: {
     padding: theme.spacing(2),
@@ -68,6 +71,23 @@ const Challenge = (props) => {
     }
   }, []);
 
+  const handleFollow = () => {
+    const userId = props.state.user._id;
+    const followingId = challenge.user._id;
+    const challengeId = props.match.params.id;
+    props.fetchFollowing(userId, followingId, challengeId);
+  }
+
+  const handleLike = () => {
+    if (!props.state.user.name) {
+      return;
+    } else {
+      const userId = props.state.user._id;
+      const challengeId = props.match.params.id;
+      props.fetchLike(userId, challengeId);
+    }
+  }
+
   let filteredComments = props.state.comments.filter(el => el.challenge === props.match.params.id)
 
   useEffect(() => {
@@ -77,8 +97,6 @@ const Challenge = (props) => {
   const challenge = props.state.challenges.find((challenge) => challenge._id === props.match.params.id)
   const comment = props.state.comments.filter((comment) => comment.challenge === props.match.params.id)
 
-  //console.log('filteredComments', filteredComments)
-  console.log(challenge)
   return (
     <Fragment>
       <NavBarIn />
@@ -98,7 +116,7 @@ const Challenge = (props) => {
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
                       <IconButton >
-                        <FavoriteIcon className={classes.like} /> <Typography variant="body2" color="inherit" component="p">{challenge.likes.length}</Typography>
+                        <FavoriteIcon className={classes.like} onClick={handleLike} /> <Typography variant="body2" color="inherit" component="p">{challenge.likes.length}</Typography>
                       </IconButton>
                     </Grid>
                   </Grid>
@@ -110,8 +128,9 @@ const Challenge = (props) => {
                       <CardHeader className={classes.left}
                         avatar={<Avatar alt="avatar" src={challenge.user.avatar} aria-label="recipe" />}
                         title={challenge.user.name}
-                        subheader={"127 Followers"}
+                        subheader={challenge.user.followers.length + ' Followers'}
                       />
+                      
                     </Grid>
                     <Grid item xs={7} sm={6} md={5} lg={4} xl={4}>
                       <Box my="5px">
@@ -127,11 +146,20 @@ const Challenge = (props) => {
                   </Grid>
 
                   <Grid container direction="row" justify="flex-start" alignItems="flex-start" spacing={2}>
-                    <Grid item xs={2} sm={2} md={2} lg={1} xl={1}>
-                      <Box className={classes.left}>
-                        <Button className={classes.button}>Follow</Button></Box>
+                    <Grid item >
+                      {
+                        challenge.user._id === props.state.user._id
+                          ? null
+                          : challenge.user.followers.includes(props.state.user._id)
+                              ? <Box className={classes.left}>
+                                  <Button className={classes.button} onClick={handleFollow} >Unfollow</Button>
+                                </Box>
+                              : <Box className={classes.left}>
+                                  <Button className={classes.button} onClick={handleFollow} >Follow</Button>
+                                </Box>
+                      }
                     </Grid>
-                    <Grid item xs={10} sm={10} md={10} lg={11} xl={11}>
+                    <Grid item >
                       <Box className={classes.left}><Typography align="left"> {challenge.description}</Typography></Box>
                     </Grid>
                   </Grid>
@@ -158,6 +186,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchUser: (user) => dispatch(fetchUserAC(user)),
   fetchChallenges: () => dispatch(fetchChallengesAC()),
   fetchComments: () => dispatch(fetchCommentsAC()),
+  fetchFollowing: (userId, followingId, challengeId) => dispatch(fetchFollowingAC(userId, followingId, challengeId)),
+  fetchLike: (id, userId) => dispatch(fetchLikeAC(id, userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Challenge);
