@@ -21,15 +21,16 @@ export const addLikeAC = (userId, challengeId) => ({
   challenge: challengeId,
 })
 
-export const addCommentAC = (comment) => ({
+export const addCommentAC = (comment, challengeId) => ({
   type: ADD_COMMENT,
   newComment: comment,
+  challenge: challengeId,
 });
 
 export const addFollowingAC = (followingId, challengeId) => ({
   type: ADD_FOLLOWING,
   newFollowing: followingId,
-  challengeId: challengeId,
+  challenge: challengeId,
 });
 
 export const loadingAC = () => ({
@@ -155,21 +156,6 @@ export const fetchLikeAC = (userId, challengeId) => {
     }
   }
 }
-
-export const fetchCommentsAC = () => {
-  return async (dispatch) => {
-    const response = await fetch('/challenges/comments', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const result = await response.json();
-    for (let i = 0; i < result.length; i++) {
-      dispatch(addCommentAC(result[i]));
-    }
-  };
-};
 
 export const fetchFollowingAC = (userId, followingId, challengeId) => {
   return async (dispatch) => {

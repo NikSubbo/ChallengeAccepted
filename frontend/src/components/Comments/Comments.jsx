@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
   },
   btnUpload: {
+    marginTop: '10px',
+    padding: '5px 25px',
     fontSize: '1rem',
     fontWeight: '700',
     backgroundColor: '#FAA916',
@@ -38,21 +40,18 @@ const Comments = (props) => {
     })
   };
 
-  const handleNewCommentSubmit = () => {
+  const handleNewCommentSubmit = async () => {
     const userId = props.user._id;
     const { challengeId } = props;
     const textComment = newComment.textComment;
-    const response = fetch(`/challenges/newComment`, {
+    const response = await fetch(`/challenges/newComment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, textComment, challengeId })
-    })
-      .then(res => res.json())
-      .then(result => {
-        props.updateComments(result.comment);
-      })
-      .catch(err => console.log(err))
-  };
+    });
+    const result = await response.json();
+    props.updateComments(result.comment, challengeId);
+  }
   
   return (
     <List className={classes.root}>
@@ -68,33 +67,34 @@ const Comments = (props) => {
         </form>
       </ListItem>
 
-      {!props.filteredComments.length
-        ? null
-        : props.filteredComments.slice(0).reverse().map(el => {
-          return (
-            <ListItem key={el._id} alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt={props.state.user.name} src={el.user.avatar} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={el.user.name}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textPrimary"
-                    >
-                      {el.text}
-                    </Typography>
-                    {`   / ` + el.date}
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
-          )
-        })
+      {
+        !props.comments.length
+          ? null
+          : props.comments.slice(0).reverse().map(el => {
+            return (
+              <ListItem key={el._id} alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt='avatar' src={el.user.avatar} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={el.user.name}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        className={classes.inline}
+                        color="textPrimary"
+                      >
+                        {el.text}
+                      </Typography>
+                      {`   / ` + el.date}
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+            )
+          })
       }
 
     </List>
@@ -103,7 +103,7 @@ const Comments = (props) => {
 
 const mapStateToProps = (state) => ({ state });
 const mapDispatchToProps = (dispatch) => ({
-  updateComments: (comment) => dispatch(addCommentAC(comment)),
+  updateComments: (comment, challengeId) => dispatch(addCommentAC(comment, challengeId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Comments);

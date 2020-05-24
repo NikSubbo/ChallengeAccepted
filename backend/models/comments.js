@@ -6,10 +6,6 @@ const commentSchema = new mongoose.Schema({
   text: String,
   date: String,
   likes: Number,
-  challenge: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Challenge',
-  }
 });
 
 const Comment = mongoose.model('Comment', commentSchema);

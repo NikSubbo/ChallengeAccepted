@@ -82,15 +82,19 @@ router.post('/newComment', async (req, res, next) => {
   try {
     const { userId, textComment, challengeId } = req.body;
     const user = await User.findById(userId);
-    const challenge = await Challenge.findById(challengeId);
     const comment = await Comment.create({
       user: user,
       text: textComment,
       date: moment(new Date()).format('LL'),
       likes: 0,
-      challenge: challenge,
     });
-    res.send({ comment });
+    const updatedChallenge = await Challenge.updateOne({ _id: challengeId }, { $push: { comments: comment } });
+    if (updatedChallenge.nModified > 0) {
+      res.send({ comment });
+    } else {
+      await Comment.deleteOne({ _id: comment._id });
+      res.sendStatus(500);
+    } 
   } catch (error) {
     next(error);
   }

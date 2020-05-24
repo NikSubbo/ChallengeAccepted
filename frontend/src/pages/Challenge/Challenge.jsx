@@ -8,7 +8,7 @@ import Player from '../../components/Player/Player';
 import { connect } from 'react-redux';
 import UploadVideoBtn from '../../components/UploadVideoBtn/UploadVideoBtn';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { fetchUserAC, fetchChallengesAC, fetchCommentsAC, fetchFollowingAC, fetchLikeAC } from '../../redux/action-creator';
+import { fetchUserAC, fetchChallengesAC, fetchFollowingAC, fetchLikeAC } from '../../redux/action-creator';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -55,19 +55,12 @@ const Challenge = (props) => {
     await props.fetchChallenges();
   };
 
-  const fetchDataComments = async () => {
-    await props.fetchComments();
-  };
-
   useEffect(() => {
     if (!props.state.challenges.length) {
       fetchDataChallenges();
     }
     if (!props.user) {
       fetchData();
-    }
-    if (!props.state.comments.length) {
-      fetchDataComments();
     }
   }, []);
 
@@ -88,14 +81,7 @@ const Challenge = (props) => {
     }
   }
 
-  let filteredComments = props.state.comments.filter(el => el.challenge === props.match.params.id)
-
-  useEffect(() => {
-    filteredComments = props.state.comments.filter(el => el.challenge === props.match.params.id)
-  }, [props.state.comments]);
-
-  const challenge = props.state.challenges.find((challenge) => challenge._id === props.match.params.id)
-  const comment = props.state.comments.filter((comment) => comment.challenge === props.match.params.id)
+  const challenge = props.state.challenges.find((challenge) => challenge._id === props.match.params.id);
 
   return (
     <Fragment>
@@ -174,7 +160,7 @@ const Challenge = (props) => {
               </Box>
               <Divider />
 
-              <Comments filteredComments={filteredComments} challengeId={challenge._id} comment={comment} user={props.state.user} />
+              <Comments comments={challenge.comments} user={props.state.user} challengeId={challenge._id} />
             </Grid>
           </Grid>
           <Grid item xs={12} sm={9} md={3} lg={3} xl={3}>
@@ -192,7 +178,6 @@ const mapStateToProps = (state) => ({ state });
 const mapDispatchToProps = (dispatch) => ({
   fetchUser: (user) => dispatch(fetchUserAC(user)),
   fetchChallenges: () => dispatch(fetchChallengesAC()),
-  fetchComments: () => dispatch(fetchCommentsAC()),
   fetchFollowing: (userId, followingId, challengeId) => dispatch(fetchFollowingAC(userId, followingId, challengeId)),
   fetchLike: (id, userId) => dispatch(fetchLikeAC(id, userId)),
 });
