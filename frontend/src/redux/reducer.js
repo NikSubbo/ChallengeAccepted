@@ -56,8 +56,8 @@ export const reducer = (state = initialState, action) => {
     case ADD_FOLLOWING:
       let currUser = state.user;
       let currChallenges = state.challenges;
-      let currChallenge = state.challenges.find(el => el._id === action.challengeId);
-      let currChallengeUpd = state.challenges.find(el => el._id === action.challengeId);
+      let currChallenge = state.challenges.find(el => el._id === action.challenge);
+      let currChallengeUpd = state.challenges.find(el => el._id === action.challenge);
 
       if (currUser.following.includes(action.newFollowing)) {
         currUser.following.splice(currUser.following.indexOf(action.newFollowing), 1);
