@@ -10,10 +10,8 @@ const initialState = {
     facebookId: '',
     followers: [],
     following: [],
-    challenges: [],
   },
     challenges: [],
-    comments: [],
     loading: false,
 }
 
@@ -48,7 +46,12 @@ export const reducer = (state = initialState, action) => {
       return { ...state,  challenges: updatedChallenges }
     
     case ADD_COMMENT:
-      return { ...state, comments: [...state.comments, action.newComment] }
+      let challengesCom = state.challenges;
+      const challengeToFindCom = state.challenges.find((el) => el._id === action.challenge);
+      let challengeToUpdateCom = state.challenges.find((el) => el._id === action.challenge);
+      challengeToUpdateCom.comments.push(action.newComment);
+      challengesCom.splice(challengesCom.indexOf(challengeToFindCom), 1, challengeToUpdateCom);
+      return { ...state, challenges: challengesCom }
 
     case ADD_FOLLOWING:
       let currUser = state.user;
