@@ -40,10 +40,12 @@ const Comments = (props) => {
     })
   };
 
-  const handleNewCommentSubmit = async () => {
+  const handleNewCommentSubmit = async (e) => {
+    e.preventDefault();
     const userId = props.user._id;
     const { challengeId } = props;
     const textComment = newComment.textComment;
+    newComment.textComment = '';
     const response = await fetch(`/challenges/newComment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,11 +61,11 @@ const Comments = (props) => {
         <ListItemAvatar>
           <Avatar alt="Challenger" src={props.state.user.avatar} />
         </ListItemAvatar>
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField id="textComment" name="textComment" label="Add Comment" fullWidth onChange={changeInputHandler} />
-          <Button onClick={handleNewCommentSubmit} className={classes.btnUpload}>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleNewCommentSubmit}>
+          <TextField id="textComment" name="textComment" label="Add Comment" fullWidth onChange={changeInputHandler} value={newComment.textComment} />
+          <Button type="submit" className={classes.btnUpload}>
             Add
-        </Button>
+          </Button>
         </form>
       </ListItem>
 

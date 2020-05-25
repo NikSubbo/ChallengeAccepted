@@ -58,4 +58,14 @@ router.put('/:id/subscribe', async (req, res, next) => {
   }
 });
 
+router.get('/populateFollowings', async (req, res, next) => {
+  try {
+    const { _id } = req.user;
+    const populated = await User.findOne({ _id }).populate('following')
+    res.send(populated.following);
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
