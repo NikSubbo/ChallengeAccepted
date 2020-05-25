@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   like: {
+    cursor: 'pointer',
     color: '#96031A'
   },
   paper: {
@@ -34,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     color: 'blue',
   },
+  likesBox: {
+    display: 'flex',
+    alignItems: 'center', 
+  },
   button: {
     backgroundColor: '#96031A',
     color: '#FAA916',
@@ -41,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#FAA916',
       color: '#FBFFFE',
     }
-  }
+  },
+  
 }));
 
 const Challenge = (props) => {
@@ -101,9 +107,12 @@ const Challenge = (props) => {
                       <Typography className={classes.hashtags} variant="body2" component="p" align="left">{challenge.hashtags.map(el => { return (<>{el} </>) })}</Typography>
                     </Grid>
                     <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+                      <Box className={classes.likesBox}>
                       <IconButton >
-                        <FavoriteIcon className={classes.like} onClick={handleLike} /> <Typography variant="body2" color="inherit" component="p">{challenge.likes.length}</Typography>
+                        <FavoriteIcon className={classes.like} onClick={handleLike} />
                       </IconButton>
+                      <Typography variant="body2" color="inherit" component="p">{challenge.likes.length}</Typography>
+                      </Box>
                     </Grid>
                   </Grid>
 
