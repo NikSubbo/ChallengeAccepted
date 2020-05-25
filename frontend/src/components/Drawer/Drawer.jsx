@@ -38,10 +38,20 @@ const useStyles = makeStyles((theme) => ({
 const FollowingDrawer = (props) => {
   const classes = useStyles();
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [userFollowings, setuserFollowings] = useState({ followings: [] });
 
-  const handleDrawerOpen = () => {
+  const handleDrawerOpen = async () => {
+    const response = await fetch('/profile/populateFollowings', {
+      method: 'GET',
+    });
+    const result = await response.json();
+    setuserFollowings({
+      ...userFollowings,
+      followings: result,
+    });
     setOpenDrawer(true);
   };
+
   const handleDrawerClose = () => {
     setOpenDrawer(false);
   };
@@ -54,42 +64,20 @@ const FollowingDrawer = (props) => {
         </Typography>
         <Divider />
         <List>
-          <ListItem button className={classes.listItem}>
-            <ListItemAvatar>
-              <Avatar src={avatarImage} />
-            </ListItemAvatar>
-            <ListItemText primary="Ranko" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemAvatar>
-              <Avatar src={avatarImage} />
-            </ListItemAvatar>
-            <ListItemText primary="Ilya" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemAvatar>
-              <Avatar src={avatarImage} />
-            </ListItemAvatar>
-            <ListItemText primary="Kostya" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemAvatar>
-              <Avatar src={avatarImage} />
-            </ListItemAvatar>
-            <ListItemText primary="Kolya" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemAvatar>
-              <Avatar src={avatarImage} />
-            </ListItemAvatar>
-            <ListItemText primary="Katrin" />
-          </ListItem>
-          <ListItem button className={classes.listItem}>
-            <ListItemAvatar>
-              <Avatar src="" />
-            </ListItemAvatar>
-            <ListItemText primary="Anon" />
-          </ListItem>
+          {
+            userFollowings.followings.length
+              ? userFollowings.followings.map(following => {
+                return (
+                  <ListItem button className={classes.listItem}>
+                    <ListItemAvatar>
+                      <Avatar src={following.avatar} />
+                    </ListItemAvatar>
+                    <ListItemText primary={following.name} />
+                  </ListItem>
+                )
+              })
+              : null
+          }
         </List>
       </div>
     </Drawer>
@@ -113,4 +101,7 @@ const FollowingDrawer = (props) => {
 
 const mapStateToProps = (state) => ({ state });
 
-export default connect(mapStateToProps)(FollowingDrawer);
+const mapDispatchToProps = (dispatch) => ({
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FollowingDrawer);
