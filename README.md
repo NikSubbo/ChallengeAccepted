@@ -7,7 +7,6 @@
 <img src="/readme-assets/Cover.png" alt="Main Page"/> <br>
 
 <h2>MVP Functionality</h2>
-<hr>
 <ul>
   <li>Upload Video challenges</li>
   <li>Answer video challenges</li>
@@ -19,7 +18,6 @@
 </ul>
 
 <h2>Authors</h2>
-<hr>
 <ul>
   <li><a href="https://github.com/Ranko95">Ranko Stevanovich</a></li>
   <li><a href="https://github.com/NewbieInside">Konstantin Shabanov</a></li>
