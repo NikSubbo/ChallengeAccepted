@@ -11,7 +11,7 @@
   <li>Follow/Unfollow your favorite users</li>
   <li>Leave Comments</li>
   <li>Upload/Change Avatar</li>
-  <li>Easy sign up with Google/Facebook</li>
+  <li>Easy Sign up with Google/Facebook</li>
   <li>Leave a feedback through contact form</li>
 </ul>
 
