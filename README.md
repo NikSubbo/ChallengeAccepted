@@ -10,6 +10,7 @@
   <li>Answer Video challenges</li>
   <li>Follow/Unfollow your favorite users</li>
   <li>Leave Comments</li>
+  <li>Like Videos</li>
   <li>Upload/Change Avatar</li>
   <li>Easy Sign up with Google/Facebook</li>
   <li>Leave a feedback through contact form</li>
