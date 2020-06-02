@@ -9,9 +9,9 @@
 <h2>MVP Functionality</h2>
 <ul>
   <li>Upload Video challenges</li>
-  <li>Answer video challenges</li>
+  <li>Answer Video challenges</li>
   <li>Follow/Unfollow your favorite users</li>
-  <li>Leave comments</li>
+  <li>Leave Comments</li>
   <li>Upload/Change Avatar</li>
   <li>Easy sign up with Google/Facebook</li>
   <li>Leave a feedback through contact form</li>
