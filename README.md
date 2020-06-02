@@ -1,4 +1,7 @@
 # ChallengeAccepted
+<hr>
+
+ChallengeAccepted - is online video platform which helps people all around the globe to share their challenges and encourage others to make the answer on some particular challenge.
 
 <img src="/readme-assets/ChallengeAccepted.jpg" alt="ChallengeAccepted"/>
 
