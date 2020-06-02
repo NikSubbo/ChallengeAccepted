@@ -1,5 +1,11 @@
 # ChallengeAccepted
 
+Getting Started
+MVP Functionality
+Authors
+Next Steps
+Contributing
+
 <img src="/readme-assets/ChallengeAccepted.jpg" alt="ChallengeAccepted"/>
 
 Everyone wants to be seen and heard.<br>
