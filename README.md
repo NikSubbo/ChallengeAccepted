@@ -30,3 +30,6 @@ Our application allows you to show your abilities, through self-realization in t
 
 Upload your videos, follow, like, comment and answer other challenges.<br>
 This is an entertaining application, the motto of which is "Show yourself and become a star!".
+
+<h2>Contribution</h2>
+We conform to the <a href="https://airbnb.io/projects/javascript/">AirBnB JavaScript Style Guide</a>
