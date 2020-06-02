@@ -4,7 +4,6 @@
 <b>ChallengeAccepted</b> - is online video platform which helps people all around the globe to share their challenges and encourage others to make their own answers on particular challenges and show what they're made of!
 
 <img src="/readme-assets/ChallengeAccepted.jpg" alt="ChallengeAccepted"/> <br>
-<img src="/readme-assets/Cover.png" alt="Main Page"/> <br>
 
 <h2>MVP Functionality</h2>
 <ul>
