@@ -1,5 +1,4 @@
 # ChallengeAccepted
-<hr>
 
 <b>ChallengeAccepted</b> - is online video platform which helps people all around the globe to share their challenges and encourage others to make their own answers on particular challenges and show what they're made of!
 
