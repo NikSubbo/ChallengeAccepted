@@ -8,7 +8,7 @@
 <h2>Mission</h2>
 Everyone wants to be seen and heard.<br>
 Our application allows you to show your abilities, through self-realization in the form of challenges.<br>
-This is an entertaining application, the motto of which is <b>"Show yourself and become a star!"</b>.<br>
+This is an entertaining application, the motto of which is <b>"Show yourself and become a star!"</b>.<br><br>
 
 <img src="/readme-assets/Screen-Recording-2020-06-02-at-1.gif" alt="ChallengeAcceptedGif"/> <br>
 
